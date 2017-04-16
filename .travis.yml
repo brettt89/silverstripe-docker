@@ -13,7 +13,6 @@ before_script:
   - env | sort
   - cd "$VERSION"
   - image="brettt89/silverstripe-web:${VERSION}"
-  - image="${image//'/'/-}"
 
 script:
   - travis_retry docker build -t "$image" .
