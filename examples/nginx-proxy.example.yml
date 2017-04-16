@@ -1,0 +1,32 @@
+# Title: Nginx-proxy Environment Setup Example
+# Author: Brett Tasker <brett@silverstripe.com>
+#
+# Description: This configuration is an example of how you can use this configuration to run environment under nginx-proxy
+#
+version: '3'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  web:
+    image: brettt89/silverstripe-web
+    working_dir: /var/www
+    volumes:
+      - .:/var/www/html
+    environment:
+      - VIRTUAL_HOST=local.dev
+
+  database:
+    image: mysql
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+volumes:
+  db-data:

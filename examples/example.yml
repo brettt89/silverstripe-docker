@@ -1,0 +1,23 @@
+# Title: Environment Setup Example
+# Author: Brett Tasker <brett@silverstripe.com>
+#
+# Description: This configuration is an example of how you can use this image
+#
+version: '3'
+services:
+  web:
+    image: brettt89/silverstripe-web
+    working_dir: /var/www
+    volumes:
+      - .:/var/www/html
+
+  database:
+    image: mysql
+    volumes:
+      - db-data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+volumes:
+  db-data:
