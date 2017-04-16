@@ -1,7 +1,5 @@
-language: bash
-services: 
-  - docker
-  - composer
+language: php
+services: docker
 
 env:
   - VERSION=platform
