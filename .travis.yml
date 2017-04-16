@@ -15,7 +15,7 @@ before_script:
 
 script:
   - travis_retry docker build -t "$image" .
-  - ~/official-images/test/run.sh "$image"
+  - ~/official-images/test/run.sh -t php-apache-hello-web "$image"
 
 after_script:
   - docker images
