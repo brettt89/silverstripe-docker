@@ -6,7 +6,8 @@ env:
 
 install:
   - composer create-project silverstripe/installer ~/src
-  - docker run -d --name database mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=true
+  - docker run --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+  - echo "<?php \ndefine('SS_DATABASE_SERVER', 'database'); \ndefine('SS_DATABASE_USERNAME', 'root'); \ndefine('SS_DATABASE_PASSWORD', ''); \ndefine('SS_DATABASE_NAME', 'SS_mysite');" > ~/src/_ss_environment.php
 
 before_script:
   - env | sort
@@ -16,7 +17,7 @@ before_script:
 
 script:
   - travis_retry docker build -t "$image" .
-  - docker run --name web --link database "$image" -v ~/src:/var/www/html /var/www/html/framework/sake dev/build
+  - docker run --name web --link database --volume ~/src:/var/www/html "$image" php /var/www/html/framework/cli-script.php dev/build
 
 after_script:
   - docker images
