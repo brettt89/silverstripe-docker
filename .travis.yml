@@ -18,7 +18,7 @@ before_script:
 script:
   - travis_retry docker build -t "$image" .
   - docker run -d --name web -p 80:80 --link database --volume ~/src:/var/www/html "$image"
-  - wait 10
+  - sleep 5
   - travis_retry curl http://localhost/dev/build
 
 after_script:
