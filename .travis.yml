@@ -16,7 +16,7 @@ before_script:
 
 script:
   - travis_retry docker build -t "$image" .
-  - docker run -d --name web --link database "$image" -v ~/src:/var/www/html /var/www/html/framework/sake dev/build
+  - docker run --name web --link database "$image" -v ~/src:/var/www/html /var/www/html/framework/sake dev/build
 
 after_script:
   - docker images
