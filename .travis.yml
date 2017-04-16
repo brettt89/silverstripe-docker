@@ -6,7 +6,7 @@ env:
 
 install:
   - composer create-project silverstripe/installer ~/src
-  - docker run --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+  - docker run -d --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
   - echo "<?php \ndefine('SS_DATABASE_SERVER', 'database'); \ndefine('SS_DATABASE_USERNAME', 'root'); \ndefine('SS_DATABASE_PASSWORD', ''); \ndefine('SS_DATABASE_NAME', 'SS_mysite');" > ~/src/_ss_environment.php
 
 before_script:
