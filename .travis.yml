@@ -1,0 +1,21 @@
+language: bash
+services: docker
+
+env:
+  - VERSION=platform
+
+install:
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+
+before_script:
+  - env | sort
+  - cd "$VERSION"
+  - image="brettt89/silverstripe-web:${VERSION}"
+  - image="${image//'/'/-}"
+
+script:
+  - travis_retry docker build -t "$image" .
+  - ~/official-images/test/run.sh "$image"
+
+after_script:
+  - docker images
