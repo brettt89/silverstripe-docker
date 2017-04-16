@@ -17,7 +17,8 @@ before_script:
 
 script:
   - travis_retry docker build -t "$image" .
-  - docker run --name web --link database --volume ~/src:/var/www/html "$image" php /var/www/html/framework/cli-script.php dev/build
+  - docker run --name web --expose 80:80 --link database --volume ~/src:/var/www/html "$image" php /var/www/html/framework/cli-script.php dev/build
+  - curl http://localhost/
 
 after_script:
   - docker images
