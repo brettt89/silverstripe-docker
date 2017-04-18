@@ -87,6 +87,8 @@ $ docker-compose up -d
 
 More commonly, you will probably want to run silverstripe-web in conjunction with nginx-proxy so you can run multiple environments. This can be achieved by following these steps.
 
+> NOTE: A clone of jwilder/nginx-proxy is used [https://github.com/brettt89/nginx-proxy](https://github.com/brettt89/nginx-proxy) for additional configuration options
+
 ### Create a `docker network` for your projects
 
 ```console
@@ -98,7 +100,7 @@ This will act as a global network for each of your projects to run in simultanio
 ### Run `nginx-proxy` in your network
 
 ```console
-$ docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro --net my-network --name nginx-proxy jwilder/nginx-proxy
+$ docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro --net my-network --name nginx-proxy brettt89/nginx-proxy
 ```
 
 Nginx proxy will act as a gateway for all the project environments. For best results it is recommended to use a shared root domain for each project. E.g. `dev`
