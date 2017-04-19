@@ -12,13 +12,17 @@ RUN apt-get update -y && apt-get install -y \
 		libmcrypt-dev \
 		libtidy-dev \
 		libxslt-dev \
+		zlib1g-dev \
+		libicu-dev \
+		g++ \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
 	pecl install xdebug && \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
-RUN docker-php-ext-configure mysql --with-mysql=mysqlnd && \
+RUN docker-php-ext-configure intl && \
+	docker-php-ext-configure mysql --with-mysql=mysqlnd && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-enable xdebug && \
@@ -30,6 +34,7 @@ RUN docker-php-ext-configure mysql --with-mysql=mysqlnd && \
         sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
 	docker-php-ext-install -j$(nproc) \
+		intl \
 		gd \
 		ldap \
 		mcrypt \
