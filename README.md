@@ -105,20 +105,23 @@ $ docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro --net my-ne
 
 Nginx proxy will act as a gateway for all the project environments. For best results it is recommended to use a shared root domain for each project. E.g. `dev`
 
-#### Get IP of `nginx-proxy`
+#### Get IP of Host
 
-```console
-$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-proxy
-172.17.0.2
-```
+Windows: 
+![alt text](https://raw.githubusercontent.com/brettt89/silverstripe-web/master/examples/docker-windows.png "Docker for Windows Network")
+
+Mac OSX / Linux:
+Use `127.0.0.1` (localhost)
 
 #### Point root domain at `nginx-proxy`
 
  - For Linux / OSX based environments, we recommend the use of `dnsmasq`
  - For Windows based environments, we recommend the use of [Acrylic DNS](http://mayakron.altervista.org/wikibase/show.php?id=AcrylicHome)
 
+NOTE: Use the IP address obtained from the previous step (Get IP of Host).
+
  ```dnsmasq
- address=/dev/172.17.0.2
+ address=/dev/10.0.75.0
  ```
  
  This will point any website ending in .dev to your nginx proxy so you don't have to keep setting up records for each project.
