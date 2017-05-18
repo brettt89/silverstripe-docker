@@ -40,6 +40,8 @@ RUN docker-php-ext-configure intl && \
 		mcrypt \
 		mysql \
 		mysqli \
+		pdo \
+		pdo_mysql \
 		tidy \
 		xsl
 
