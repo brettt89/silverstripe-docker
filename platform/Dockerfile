@@ -42,6 +42,7 @@ RUN docker-php-ext-configure intl && \
 		mysqli \
 		pdo \
 		pdo_mysql \
+		soap \
 		tidy \
 		xsl
 
