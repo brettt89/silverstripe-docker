@@ -17,6 +17,7 @@ RUN apt-get update -y && apt-get install -y \
 		g++ \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
+	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
 	pecl install xdebug && \
 	rm -r /var/lib/apt/lists/*
 
