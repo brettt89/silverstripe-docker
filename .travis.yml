@@ -1,13 +1,16 @@
 language: php
-services: docker
+sudo: required
+dist: trusty
+services: 
+  - docker
 
 env:
   - VERSION=platform
 
 matrix:
   include:
-    - VERSION=platform
-    - VERSION=alpine
+    - env: VERSION=platform
+    - env: VERSION=alpine
 
 install:
   - composer create-project silverstripe/installer ~/src
