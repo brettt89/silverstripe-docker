@@ -4,6 +4,11 @@ services: docker
 env:
   - VERSION=platform
 
+matrix:
+  include:
+    - VERSION=platform
+    - VERSION=alpine
+
 install:
   - composer create-project silverstripe/installer ~/src
   - docker run -d --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
