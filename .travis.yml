@@ -31,4 +31,5 @@ script:
   - travis_retry curl http://localhost/dev/build
 
 after_script:
+  - docker exec web ls -lah
   - docker images

@@ -72,8 +72,7 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	echo "date.timezone = Pacific/Auckland" > /usr/local/etc/php/conf.d/timezone.ini && \
 	a2enmod rewrite expires remoteip cgid && \
 	usermod -u 1000 www-data && \
-	usermod -G staff www-data && \
-	chmod -R g+w /var/www/html
+	usermod -G staff www-data
 
 EXPOSE 80
 CMD ["apache2-foreground"]
