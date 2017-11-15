@@ -1,7 +1,9 @@
 # Supported tags and respective `Dockerfile` links
 
- - [`platform`, `ssp`, `latest` (*platform/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/platform/Dockerfile)
- - [`alpine` (*alpine/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/alpine/Dockerfile)
+ - [`7.1-platform`, `7.1-ssp` (*7.1/platform/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/platform/Dockerfile)
+ - [`7.1-alpine` (*7.1/alpine/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/alpine/Dockerfile)
+ - [`5.6-platform`, `5.6-ssp`, `latest` (*5.6/platform/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/platform/Dockerfile)
+ - [`5.6-alpine` (*5.6/alpine/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/alpine/Dockerfile)
 
 [Travis CI:
         ![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web) 

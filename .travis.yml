@@ -9,8 +9,10 @@ env:
 
 matrix:
   include:
-    - env: VERSION=platform
-    - env: VERSION=alpine
+    - env: VERSION=platform PHP=5.6
+    - env: VERSION=alpine PHP=5.6
+    - env: VERSION=platform PHP=7.1
+    - env: VERSION=alpine PHP=7.1
 
 install:
   - composer create-project silverstripe/installer ~/src
@@ -19,8 +21,8 @@ install:
 
 before_script:
   - env | sort
-  - cd "$VERSION"
-  - image="brettt89/silverstripe-web:${VERSION}"
+  - cd "${PHP}/${VERSION}"
+  - image="brettt89/silverstripe-web:${PHP}-${VERSION}"
 
 script:
   - travis_retry docker build -t "$image" .
