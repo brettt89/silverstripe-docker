@@ -23,7 +23,6 @@ RUN apt-get update -y && apt-get install -y \
 
 # Install PHP Extensions
 RUN docker-php-ext-configure intl && \
-	docker-php-ext-configure mysql --with-mysql=mysqlnd && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-enable xdebug && \
