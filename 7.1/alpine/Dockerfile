@@ -29,7 +29,6 @@ RUN docker-php-ext-configure intl && \
 		gd \
 		ldap \
 		mcrypt \
-		mysql \
 		mysqli \
 		pdo \
 		pdo_mysql \
