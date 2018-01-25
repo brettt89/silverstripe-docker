@@ -15,6 +15,7 @@ RUN apt-get update -y && apt-get install -y \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
+		openssh-client \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
 	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
