@@ -15,6 +15,7 @@ RUN apt-get update -y && apt-get install -y \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
+		openssh-client \
 	--no-install-recommends && \
 	rm -r /var/lib/apt/lists/*
 
