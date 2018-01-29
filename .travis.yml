@@ -1,8 +1,18 @@
 language: php
-services: docker
+sudo: required
+dist: trusty
+services: 
+  - docker
 
 env:
   - VERSION=platform
+
+matrix:
+  include:
+    - env: VERSION=platform PHP=5.6
+    - env: VERSION=alpine PHP=5.6
+    - env: VERSION=platform PHP=7.1
+    - env: VERSION=alpine PHP=7.1
 
 install:
   - composer create-project silverstripe/installer ~/src
@@ -11,12 +21,13 @@ install:
 
 before_script:
   - env | sort
-  - cd "$VERSION"
-  - image="brettt89/silverstripe-web:${VERSION}"
+  - cd "${PHP}/${VERSION}"
+  - image="brettt89/silverstripe-web:${PHP}-${VERSION}"
 
 script:
   - travis_retry docker build -t "$image" .
   - docker run -d --name web -p 80:80 --link database --volume ~/src:/var/www/html "$image"
+  - docker exec web usermod -u 2000 www-data
   - sleep 5
   - travis_retry curl http://localhost/dev/build
 
