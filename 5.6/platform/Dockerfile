@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && apt-get install -y \
 		curl \
 		git-core \
+		gzip \
 		libcurl4-openssl-dev \
 		libgd-dev \
 		libldap2-dev \
