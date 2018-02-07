@@ -17,10 +17,14 @@ RUN apt-get update -y && apt-get install -y \
 		libicu-dev \
 		g++ \
 		openssh-client \
+		libmagickwand-dev \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
 	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
 	pecl install xdebug && \
+	pecl install imagick-3.4.3 && \
+	apt-get remove -y libmagickwand-dev && \
+	apt-get install -y libmagickwand-6.q16-2 && \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
@@ -28,6 +32,7 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-enable xdebug && \
+	docker-php-ext-enable imagick && \
 	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
         sed -i '1 a xdebug.remote_handler=dbgp' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
