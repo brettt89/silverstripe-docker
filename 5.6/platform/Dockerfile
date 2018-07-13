@@ -26,7 +26,6 @@ RUN apt-get update -y && apt-get install -y \
 	pecl install xdebug-2.2.7 && \
 	pecl install imagick-3.4.3 && \
 	apt-get remove -y libmagickwand-dev && \
-	apt-get install -y libmagickwand-6.q16-2 && \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
