@@ -9,6 +9,10 @@ do
     do
         echo "### Building brettt89/silverstripe-web:${version}-${platform} ###"
         docker build -t "brettt89/silverstripe-web:${version}-${platform}" "${version}/${platform}"
+        if [ "${platform}" == "platform" ]
+        then
+            docker tag "brettt89/silverstripe-web:${version}-${platform}" "brettt89/silverstripe-web:${version}-ssp"
+        fi
     done
     echo "### Building brettt89/silverstripe-web:${platform}"
     docker build -t "brettt89/silverstripe-web:${platform}" "5.6/${platform}"
