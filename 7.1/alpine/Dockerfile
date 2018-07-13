@@ -17,6 +17,8 @@ RUN apt-get update -y && apt-get install -y \
 		libicu-dev \
 		g++ \
 		openssh-client \
+		unzip \
+		zip \
 	--no-install-recommends && \
 	rm -r /var/lib/apt/lists/*
 
@@ -35,7 +37,8 @@ RUN docker-php-ext-configure intl && \
 		pdo_mysql \
 		soap \
 		tidy \
-		xsl
+		xsl \
+		zip
 
 # Apache + xdebug configuration
 RUN { \

@@ -18,6 +18,8 @@ RUN apt-get update -y && apt-get install -y \
 		g++ \
 		openssh-client \
 		libmagickwand-dev \
+		unzip \
+		zip \
 	--no-install-recommends && \
 	curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin && \
 	curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
@@ -50,7 +52,8 @@ RUN docker-php-ext-configure intl && \
 		pdo_mysql \
 		soap \
 		tidy \
-		xsl
+		xsl \
+		zip
 
 # Apache + xdebug configuration
 RUN { \
