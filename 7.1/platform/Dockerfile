@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1-apache-jessie
 MAINTAINER Brett Tasker "<brett@silverstripe.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -26,6 +26,7 @@ RUN apt-get update -y && apt-get install -y \
 	pecl install xdebug && \
 	pecl install imagick-3.4.3 && \
 	apt-get remove -y libmagickwand-dev && \
+	apt-get install -y libmagickwand-6.q16-2 && \
 	apt-get autoremove -y && \
 	rm -r /var/lib/apt/lists/*
 

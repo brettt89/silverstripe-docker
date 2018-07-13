@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1-apache-jessie
 MAINTAINER Brett Tasker "<brett@silverstripe.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
