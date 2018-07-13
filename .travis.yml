@@ -16,7 +16,7 @@ matrix:
 
 install:
   - composer create-project silverstripe/installer ~/src
-  - docker run -d --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql
+  - docker run -d --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:5.7
   - cp examples/_ss_environment.php ~/src/_ss_environment.php
 
 before_script:

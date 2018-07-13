@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.1-apache-jessie
 MAINTAINER Brett Tasker "<brett@silverstripe.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -17,6 +17,8 @@ RUN apt-get update -y && apt-get install -y \
 		libicu-dev \
 		g++ \
 		openssh-client \
+		unzip \
+		zip \
 	--no-install-recommends && \
 	apt-get autoremove -y && \
 	rm -r /var/lib/apt/lists/*
@@ -37,7 +39,8 @@ RUN docker-php-ext-configure intl && \
 		pdo_mysql \
 		soap \
 		tidy \
-		xsl
+		xsl \
+		zip
 
 # Apache + xdebug configuration
 RUN { \
