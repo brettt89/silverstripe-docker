@@ -17,6 +17,7 @@ RUN apt-get update -y && apt-get install -y \
 		libicu-dev \
 		g++ \
 		openssh-client \
+		mysql-client \
 		libmagickwand-dev \
 		unzip \
 		zip \
