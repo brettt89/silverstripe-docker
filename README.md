@@ -1,9 +1,14 @@
 # Supported tags and respective `Dockerfile` links
 
-- [`7.1-platform`, `7.1-ssp` (*7.1/platform/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/platform/Dockerfile)
-- [`7.1-alpine` (*7.1/alpine/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/alpine/Dockerfile)
-- [`5.6-platform`, `5.6-ssp`, `latest`, `platform` (*5.6/platform/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/platform/Dockerfile)
-- [`5.6-alpine`, `alpine` (*5.6/alpine/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/alpine/Dockerfile)
+- [`7.3-debian-buster`, `7.3-debian` (*7.3/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/buster/Dockerfile)
+- [`7.3-debian-stretch` (*7.3/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/stretch/Dockerfile)
+- [`7.2-debian-buster`, `7.2-debian` (*7.2/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/buster/Dockerfile)
+- [`7.2-debian-stretch` (*7.2/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/stretch/Dockerfile)
+- [`7.1-debian-buster`, `7.1-debian` (*7.1/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/buster/Dockerfile)
+- [`7.1-debian-stretch` (*7.1/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/stretch/Dockerfile)
+- [`7.1-debian-jessie` (*7.1/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/jessie/Dockerfile)
+- [`5.6-debian-stretch`, `5.6-debian` (*5.6/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/stretch/Dockerfile)
+- [`5.6-debian-jessie` (*5.6/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/jessie/Dockerfile)
 
 [Travis CI:
         ![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web) 
@@ -18,21 +23,25 @@
 
 ### Versions
 
-Each build is prefixed with a version (e.g. 5.6 / 7.1). This denotes the PHP version this build is built from.
+Each build is prefixed with a version (e.g. 5.6 / 7.1 / 7.2 / 7.3). This denotes the PHP version this build is built from.
 
 ### Build names
 
-There are 2 builds currently available, `alpine` and `platform`. These builds are almost identical except the `alpine` release does not include the Build Tools listed below.
+There are multiple available for each PHP version, E.g. `php7.1-debian.stretch`. Take a look at the available tags to pick what is most appropriate for you..
 
 ## Environment Info
 
-This image comes pre-packaged with a the default php extensions and configurations found on [SilverStripe Platform](https://platform.silverstripe.com). It also comes with some tooling pre-installed for ease-of-use.
+This image comes pre-packaged with the following additional PHP Extensions
 
-### Build Tools
-
-- [xdebug](https://xdebug.org/)
-- [sspak](https://github.com/silverstripe/sspak)
-- [composer](https://getcomposer.org/)
+ - bcmath
+ - mysql
+ - pdo
+ - intl
+ - ldap
+ - gd
+ - tidy
+ - xsl
+ - zip
 
 ## Running with Docker
 
@@ -53,7 +62,7 @@ View [license information](http://php.net/license/) for the software contained i
 
 # Supported Docker versions
 
-This image is officially supported on Docker version 17.04.0-ce.
+This image is officially supported on Docker version 19.03.2.
 
 Support for older versions (down to 1.6) is provided on a best-effort basis.
 

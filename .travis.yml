@@ -1,35 +1,85 @@
 language: php
-sudo: required
-dist: trusty
+dist: xenial
+os: linux
 services: 
   - docker
 
 env:
-  - VERSION=platform
+  global:
+    - OS=debian
 
-matrix:
+jobs:
   include:
-    - env: VERSION=platform PHP=5.6
-    - env: VERSION=alpine PHP=5.6
-    - env: VERSION=platform PHP=7.1
-    - env: VERSION=alpine PHP=7.1
+    - php: 5.6
+      env: FRAMEWORK=3 PHP=5.6 PLATFORM=jessie
+    - php: 5.6
+      env: FRAMEWORK=3 PHP=5.6 PLATFORM=stretch
+
+    - php: 7.1
+      env: FRAMEWORK=3 PHP=7.1 PLATFORM=jessie
+    - php: 7.1
+      env: FRAMEWORK=3 PHP=7.1 PLATFORM=stretch
+    - php: 7.1
+      env: FRAMEWORK=3 PHP=7.1 PLATFORM=buster
+
+    - php: 7.1
+      env: FRAMEWORK=4 PHP=7.1 PLATFORM=jessie
+    - php: 7.1
+      env: FRAMEWORK=4 PHP=7.1 PLATFORM=stretch
+    - php: 7.1
+      env: FRAMEWORK=4 PHP=7.1 PLATFORM=buster
+
+    - php: 7.2
+      env: FRAMEWORK=3 PHP=7.2 PLATFORM=stretch
+    - php: 7.2
+      env: FRAMEWORK=3 PHP=7.2 PLATFORM=buster
+
+    - php: 7.2
+      env: FRAMEWORK=4 PHP=7.2 PLATFORM=stretch
+    - php: 7.2
+      env: FRAMEWORK=4 PHP=7.2 PLATFORM=buster
+
+    - php: 7.3
+      env: FRAMEWORK=3 PHP=7.3 PLATFORM=stretch
+    - php: 7.3
+      env: FRAMEWORK=3 PHP=7.3 PLATFORM=buster
+
+    - php: 7.3
+      env: FRAMEWORK=4 PHP=7.3 PLATFORM=stretch
+    - php: 7.3
+      env: FRAMEWORK=4 PHP=7.3 PLATFORM=buster
+
+cache:
+  directories:
+  - ~/docker_images
+  - $HOME/.composer/cache/files
+
+before_install:
+  - docker load -i ~/docker_images/images.tar || true
+
+before_cache:
+  - docker rm -f $(docker ps -a | grep -v "silverstripe-web" | awk 'NR>1 {print $1}')
+  - docker save -o ~/docker_images/images.tar $(docker images -q)
 
 install:
-  - composer create-project silverstripe/installer ~/src
-  - docker run -d --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:5.7
+  - docker run -d --name database --health-cmd='mysqladmin ping --silent' --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:5.7
+  - composer create-project silverstripe/installer ~/src ^${FRAMEWORK}
   - cp examples/_ss_environment.php ~/src/_ss_environment.php
+  - cp examples/.env ~/src/.env
 
 before_script:
   - env | sort
-  - cd "${PHP}/${VERSION}"
-  - image="brettt89/silverstripe-web:${PHP}-${VERSION}"
+  - cd "${PHP}/${OS}/${PLATFORM}"
+  - image="brettt89/silverstripe-web:${PHP}-${OS}-${PLATFORM}"
 
 script:
   - travis_retry docker build -t "$image" .
-  - docker run -d --name web -p 80:80 --link database --volume ~/src:/var/www/html "$image"
-  - docker exec web usermod -u 2000 www-data
-  - sleep 5
-  - travis_retry curl http://localhost/dev/build
+  - docker run -d --name web -p 80:80 --link database "$image"
+  - docker cp ~/src/. web:/var/www/html
+  - docker exec web chown -R www-data:www-data  /var/www/html
+  - while [ "$(docker inspect -f '{{.State.Health.Status}}' database)" != "healthy" ]; do sleep 1; done
+  - travis_retry wget "http://localhost/dev/build"
+  - docker logs web
 
 after_script:
   - docker images
