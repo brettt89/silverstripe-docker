@@ -39,9 +39,6 @@ RUN apt-get update -y && apt-get install -y \
         libicu-dev \
         g++ \
         libldap2-dev \
-        libgd-dev \
-        libzip-dev \
-        libtidy-dev \
         libxml2-dev \
         libxslt-dev && \
     docker-php-ext-configure intl && \
