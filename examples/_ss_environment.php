@@ -1,6 +1,7 @@
 <?php
 
 /* Change this from 'dev' to 'live' for a production environment. */
+define('SS_TRUSTED_PROXY_IPS', '*');
 define('SS_ENVIRONMENT_TYPE', 'dev');
 
 /* This defines a default database user */

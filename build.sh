@@ -1,23 +1,45 @@
 #!/bin/bash
 
-declare -a platforms=("alpine" "platform")
-declare -a phpVersions=("7.1" "5.6")
+declare -a oss=("debian")
+declare -a platforms=("jessie" "stretch" "buster")
+declare -a phpVersions=("7.3" "7.2" "7.1" "5.6")
+declare -a defaultPhpVersion="7.3"
+declare -a defaultPlatform="buster"
+declare -a defaultOS="debian"
 
-for platform in "${platforms[@]}"
+for version in "${phpVersions[@]}"
 do
-    for version in "${phpVersions[@]}"
+    for os in "${oss[@]}"
     do
-        echo "### Building brettt89/silverstripe-web:${version}-${platform} ###"
-        docker build -t "brettt89/silverstripe-web:${version}-${platform}" "${version}/${platform}"
-        if [ "${platform}" == "platform" ]
-        then
-            docker tag "brettt89/silverstripe-web:${version}-${platform}" "brettt89/silverstripe-web:${version}-ssp"
+        for platform in "${platforms[@]}"
+        do
+            # Build "$Version"-"$OS"-"$Platform"
+            if [ -f "${version}/${os}/${platform}/Dockerfile" ]; then
+                echo "### Building brettt89/silverstripe-web:${version}-${os}-${platform} ###"
+                docker build -t "brettt89/silverstripe-web:${version}-${os}-${platform}" "${version}/${os}/${platform}"
+            fi
+        done
+        # Build "$Version"-"$OS"
+        if [ -f "${version}/${os}/${defaultPlatform}/Dockerfile" ]; then
+            echo "### Building brettt89/silverstripe-web:${version}-${os} using ${defaultPlatform}"
+            docker build -t "brettt89/silverstripe-web:${version}-${os}" "${version}/${os}/${defaultPlatform}"
+        elif [ -f "${version}/${os}/stretch/Dockerfile" ]; then
+            echo "### Building brettt89/silverstripe-web:${version}-${os} using stretch"
+            docker build -t "brettt89/silverstripe-web:${version}-${os}" "${version}/${os}/stretch"
         fi
     done
-    echo "### Building brettt89/silverstripe-web:${platform}"
-    docker build -t "brettt89/silverstripe-web:${platform}" "5.6/${platform}"
+    # Build "$Version"
+    if [ -f "${version}/${defaultOS}/${defaultPlatform}/Dockerfile" ]; then
+        echo "### Building brettt89/silverstripe-web:${version}"
+        docker build -t "brettt89/silverstripe-web:${version}" "${version}/${defaultOS}/${defaultPlatform}"
+    elif [ -f "${version}/${defaultOS}/stretch/Dockerfile" ]; then
+        echo "### Building brettt89/silverstripe-web:${version}} using stretch"
+        docker build -t "brettt89/silverstripe-web:${version}" "${version}/${defaultOS}/stretch"
+    fi
 done
-
-## Force 5.6/platform to be latest build
-echo "### Building brettt89/silverstripe-web:latest"
-docker build -t "brettt89/silverstripe-web:latest" "5.6/platform"
+# Build "latest"
+if [ -f "${defaultPhpVersion}/${defaultOS}/${defaultPlatform}/Dockerfile" ]; then
+    ## Force ${defaultPhpVersion}/${defaultOS}/${defaultPlatform} to be latest build
+    echo "### Building brettt89/silverstripe-web:latest"
+    docker build -t "brettt89/silverstripe-web:latest" "${defaultPhpVersion}/${defaultOS}/${defaultPlatform}"
+fi
