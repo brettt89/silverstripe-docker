@@ -58,8 +58,7 @@ before_install:
   - docker load -i ~/docker_images/images.tar || true
 
 before_cache:
-  - docker rm -f $(docker ps -a | grep -v "silverstripe-web" | awk 'NR>1 {print $1}')
-  - docker save -o ~/docker_images/images.tar $(docker images -q)
+  - docker save -o ~/docker_images/images.tar $(docker images brettt89/silverstripe-web -q)
 
 install:
   - docker run -d --name database --health-cmd='mysqladmin ping --silent' --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:5.7
