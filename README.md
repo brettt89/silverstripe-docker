@@ -12,48 +12,106 @@
 
 [![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web)
 
-# How to use this image.
+# What is SilverStripe Web
+
+SilverStripe Web is a Debian Docker container which comes pre-installed with Apache, PHP and a other common components used to run SilverStripe websites. This is designed to be light weight so it can cater to many. We recommend using your own `Dockerfile` and extending from this image (See: [Installing additional dependancies](#installing-additional-dependancies)).
 
 ## Requirements
 
-- [*Docker*](https://docs.docker.com/)
+- [Docker](https://docs.docker.com/)
 
-## Builds
+## Build names
 
-### Versions
+Each build is prefixed with a version (e.g. `5.6` / `7.1` / `7.2` / `7.3`). This denotes the PHP version this build is built from.
 
-Each build is prefixed with a version (e.g. 5.6 / 7.1 / 7.2 / 7.3). This denotes the PHP version this build is built from.
-
-### Build names
-
-There are multiple available for each PHP version, E.g. `7.1-debian-stretch`. Take a look at the available tags to pick what is most appropriate for you..
+There are multiple available for each PHP version, E.g. `7.1-debian-stretch`. Take a look at the available tags to pick what is most appropriate for you.
 
 ## Environment Info
 
 This image comes pre-packaged with the following additional PHP Extensions
 
- - bcmath
- - mysql
- - pdo
- - intl
- - ldap
- - gd
- - tidy
- - xsl
- - zip
+ - `bcmath`
+ - `mysql`
+ - `pdo`
+ - `intl`
+ - `ldap`
+ - `gd`
+ - `tidy`
+ - `xsl`
+ - `zip`
 
-## Running with Docker
+# How to use this image.
 
-This image can also be run directly with docker. However it will need to be linked with a database in order for SilverStripe to successfully build.
+## Install SilverStripe CMS 4.x (Optional)
+
+_If you already have a silverstripe installation, skip this step and use the directory of your installation instead of `/path/to/project`_
+
+### Requirements
+
+ - [Composer](https://getcomposer.org/)
+ - [PHP](https://www.php.net/manual/en/install.php) - _(PHP 7.3 Recommended)_
+
+Install the latest version of Silverstripe 4 to `/path/to/project` or a directory of your choosing.
+
+```bash
+composer create-project silverstripe/installer /path/to/project ^4
+```
+
+## Start a `mysql` server instance
+
+We name our database `database` so we can link our web container to it.
+
+Start a `mysql` container for our web server to connect to.
 
 ```bash
 docker run -d -p 3306:3306 --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=1 mysql
-docker run -d -p 80:80 -v /path/to/project:/var/www/html --link database --name project1 brettt89/silverstripe-web
 ```
 
-NOTE: You will require an `_ss_environment.php` or `.env` file to tell the environment which database to connect to. Examples have been provided in `./example` folder [example](./example/_ss_environment.php)
+_If using for sensitive data, we recommend replacing `MYSQL_ALLOW_EMPTY_PASSWORD=1` with `MYSQL_ROOT_PASSWORD=my-secret-pw`, where `my-secret-pw` is the password to be set for `SS_DATABASE_PASSWORD` in your `_ss_environment.php` or `.env` file._
 
-You should then be able to access run a dev buid via http://localhost/dev/build.
+## Start a `brettt89/silverstripe-web` server instance
+
+Start a `brettt89/silverstripe-web` container mounting the folder of your SilverStripe installation (e.g. `/path/to/project`) to `/var/www/html` and linking the `database` container using `--link database`.
+
+```bash
+docker run -d -p 80:80 -v /path/to/project:/var/www/html --link database --name project1  brettt89/silverstripe-web
+```
+
+_You will require an `_ss_environment.php` or `.env` file to tell the environment which database to connect to. Examples have been provided in `./example` folder [example](./example/_ss_environment.php)_
+
+_By linking the database via `--link database`, we can connect to it from the web server using `database` as the hostname (e.g. `SS_DATABASE_SERVER=database`)._
+
+## Build the database
+
+Run a dev buid via http://localhost/dev/build for via CLI by using `docker exec`
+
+```bash
+docker exec project1 php ./vendor/silverstripe/framework/cli-script.php dev/build
+```
+
+## Access your website
+
+You should then be able to access your installation via http://localhost/. 
+
+# Installing additional dependancies
+
+If you are wanting to add additional PHP extensions or other changes, we recommend using a `Dockerfile` to extend this image and customize to suit.
+
+```Dockerfile
+FROM brettt89/silverstripe-web:7.3
+
+# Adding Xdebug
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+# Replace current php.ini with custom version of php.ini
+COPY php.ini /usr/local/etc/php/
+# Copy current directory (website) directly to /var/www/html
+#     This can sometimes provide a performance improvement over mounting with volumes.
+COPY . /var/www/html/
+```
 
 # License
 
