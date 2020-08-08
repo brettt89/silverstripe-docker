@@ -9,6 +9,7 @@ services:
        - database
     environment:
        - DISTRO=${DISTRO:-apache}
+       - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
     volumes:
        - codebase:/src
 
