@@ -1,0 +1,115 @@
+language: php
+dist: xenial
+os: linux
+services: 
+  - docker
+
+env:
+  - FRAMEWORK=3 DISTRO=apache PHP=5.6 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=apache PHP=5.6 PLATFORM=stretch
+
+  - FRAMEWORK=3 DISTRO=fpm PHP=5.6 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=fpm PHP=5.6 PLATFORM=stretch
+
+  - FRAMEWORK=3 DISTRO=cli PHP=5.6 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=cli PHP=5.6 PLATFORM=stretch
+
+  - FRAMEWORK=3 DISTRO=apache PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=apache PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=apache PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=cli PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=3 DISTRO=cli PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=cli PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=apache PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=4 DISTRO=apache PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=apache PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=cli PHP=7.1 PLATFORM=jessie
+  - FRAMEWORK=4 DISTRO=cli PHP=7.1 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=cli PHP=7.1 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=apache PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=apache PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=cli PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=cli PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=apache PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=apache PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=cli PHP=7.2 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=cli PHP=7.2 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=apache PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=apache PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=fpm PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=3 DISTRO=cli PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=3 DISTRO=cli PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=apache PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=apache PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=cli PHP=7.3 PLATFORM=stretch
+  - FRAMEWORK=4 DISTRO=cli PHP=7.3 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=apache PHP=7.4 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=fpm PHP=7.4 PLATFORM=buster
+
+  - FRAMEWORK=4 DISTRO=cli PHP=7.4 PLATFORM=buster
+
+cache:
+  directories:
+  - ~/docker_images
+  - $HOME/.composer/cache/files
+
+before_install:
+  - docker load -i ~/docker_images/images-${PHP}-${DISTRO}-${PLATFORM}.tar || true
+
+before_cache:
+  - docker save -o ~/docker_images/images-${PHP}-${DISTRO}-${PLATFORM}.tar $(docker images brettt89/silverstripe-web -q)
+
+install:
+  - docker run -d --name database --health-cmd='mysqladmin ping --silent' --env MYSQL_ALLOW_EMPTY_PASSWORD=true mysql:5.7
+  - composer create-project silverstripe/installer ~/site ^${FRAMEWORK}
+  - cp examples/_ss_environment.php ~/site/_ss_environment.php
+  - cp examples/.env ~/site/.env
+
+before_script:
+  - env | sort
+  - cd "src/${PHP}/${DISTRO}/${PLATFORM}"
+  - image="brettt89/silverstripe-web:${PHP}-${DISTRO}-${PLATFORM}"
+
+script:
+  - travis_retry docker build -t "$image" .
+  - docker run -d --name web -p 80:80 --link database "$image"
+  - docker cp ~/site/. web:/var/www/html
+  - docker exec web chown -R www-data:www-data  /var/www/html
+  - while [ "$(docker inspect -f '{{.State.Health.Status}}' database)" != "healthy" ]; do sleep 1; done
+  - travis_retry wget "http://localhost/dev/build"
+  - docker logs web
+
+after_script:
+  - docker images
