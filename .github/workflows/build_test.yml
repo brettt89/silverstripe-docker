@@ -1,0 +1,155 @@
+name: Test Silverstripe installation
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  # Also trigger on page_build, as well as release created events
+  page_build:
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
+jobs:
+  build:
+    # Job name is Greeting
+    name: Build & Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    env:
+      distro: apache
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [stretch, buster]
+        php: [7.2, 7.3, 7.4]
+        framework: [3, 4]
+        exclude:
+          - os: stretch
+            php: 7.4
+            framework: 3
+          - os: stretch
+            php: 7.4
+            framework: 4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker images
+        run: docker-compose -f docker-compose.test.yml pull
+
+      - name: Docker Caching
+        uses: satackey/action-docker-layer-caching@v0.0.5
+        with:
+          key: docker-cache-v2-${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}-{hash}
+          restore-keys: |
+            docker-cache-v2-${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}-
+
+      - name: Build Images
+        env:
+          BUILD_DIR: ./src/${{ matrix.php }}/${{ env.distro }}/${{ matrix.os }}
+          IMAGE: brettt89/silverstripe-web:${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}
+        run: docker-compose -f docker-compose.test.yml build
+
+      - name: Get Composer Cache Directory
+        id: composer-data
+        run: |
+          echo "::set-output name=dir::$(composer config --global data-dir)"
+
+      - name: Cache Composer Downloads
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-data.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.framework }}-${{ matrix.php }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.framework }}
+
+      - name: Create Silverstripe ${{ matrix.framework }} test project
+        env:
+          FRAMEWORK: ${{ matrix.framework }}
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose -f docker-compose.test.yml run create-project
+
+      - name: Install Silverstripe test project
+        env:
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose -f docker-compose.test.yml run install-project
+
+      - name: Run tests
+        env:
+          BUILD_DIR: ./src/${{ matrix.php }}/${{ env.distro }}/${{ matrix.os }}
+          IMAGE: brettt89/silverstripe-web:${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}
+          DISTRO: ${{ env.distro }}
+        run: docker-compose -f docker-compose.test.yml run sut
+
+  # Legacy PHP 5.6 and 7.1 tests
+  build_legacy:
+    # Job name is Greeting
+    name: Legacy Build & Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    env:
+      distro: apache
+    strategy:
+      matrix:
+        os: [jessie, stretch, buster]
+        php: [5.6, 7.1]
+        framework: [3, 4]
+        exclude:
+        - os: buster
+          php: 5.6
+        - php: 5.6
+          framework: 4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker images
+        run: docker-compose -f docker-compose.test.yml pull
+
+      - name: Docker Caching
+        uses: satackey/action-docker-layer-caching@v0.0.5
+        with:
+          key: docker-cache-v2-${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}-{hash}
+          restore-keys: |
+            docker-cache-v2-${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}-
+
+      - name: Build Images
+        env:
+          BUILD_DIR: ./src/${{ matrix.php }}/${{ env.distro }}/${{ matrix.os }}
+          IMAGE: brettt89/silverstripe-web:${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}
+        run: docker-compose -f docker-compose.test.yml build
+
+      - name: Get Composer Cache Directory
+        id: composer-data
+        run: |
+          echo "::set-output name=dir::$(composer config --global data-dir)"
+
+      - name: Cache Composer Downloads
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-data.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.framework }}-${{ matrix.php }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.framework }}
+
+      - name: Create Silverstripe ${{ matrix.framework }} test project
+        env:
+          FRAMEWORK: ${{ matrix.framework }}
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose -f docker-compose.test.yml run create-project
+
+      - name: Install Silverstripe test project
+        env:
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose -f docker-compose.test.yml run install-project
+
+      - name: Run tests
+        env:
+          BUILD_DIR: ./src/${{ matrix.php }}/${{ env.distro }}/${{ matrix.os }}
+          IMAGE: brettt89/silverstripe-web:${{ matrix.php }}-${{ env.distro }}-${{ matrix.os }}
+          DISTRO: ${{ env.distro }}
+        run: docker-compose -f docker-compose.test.yml run sut

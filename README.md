@@ -1,20 +1,31 @@
-# Supported tags and respective `Dockerfile` links
-
-- [`7.3-debian-buster`, `7.3-debian` `7.3` `latest` (*7.3/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/buster/Dockerfile)
-- [`7.3-debian-stretch` (*7.3/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/stretch/Dockerfile)
-- [`7.2-debian-buster`, `7.2-debian` `7.2` (*7.2/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/buster/Dockerfile)
-- [`7.2-debian-stretch` (*7.2/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/stretch/Dockerfile)
-- [`7.1-debian-buster`, `7.1-debian` `7.1` (*7.1/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/buster/Dockerfile)
-- [`7.1-debian-stretch` (*7.1/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/stretch/Dockerfile)
-- [`7.1-debian-jessie` (*7.1/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/jessie/Dockerfile)
-- [`5.6-debian-stretch`, `5.6-debian` `5.6` (*5.6/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/stretch/Dockerfile)
-- [`5.6-debian-jessie` (*5.6/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/jessie/Dockerfile)
-
 [![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web)
+
+# Supported tags and respective `Dockerfile` links
+- [`7.4-apache-buster`, `7.4-apache`, `7.4`, `latest` (*7.4/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.4/apache/buster/Dockerfile)
+- [`7.3-apache-buster`, `7.3-apache`, `7.3` (*7.3/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/apache/buster/Dockerfile)
+- [`7.3-apache-stretch` (*7.3/apache/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/apache/stretch/Dockerfile)
+- [`7.2-apache-buster`, `7.2-apache`, `7.2` (*7.2/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/apache/buster/Dockerfile)
+- [`7.2-apache-stretch` (*7.2/apache/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/apache/stretch/Dockerfile)
+- [`7.1-apache-buster`, `7.1-apache`, `7.1` (*7.1/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/apache/buster/Dockerfile)
+- [`7.1-apache-jessie` (*7.1/apache/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/apache/jessie/Dockerfile)
+- [`7.1-apache-stretch` (*7.1/apache/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/apache/stretch/Dockerfile)
+- [`5.6-apache-jessie`, `5.6-apache`, `5.6` (*5.6/apache/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/apache/jessie/Dockerfile)
+- [`5.6-apache-stretch` (*5.6/apache/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/apache/stretch/Dockerfile)
+
+## Depreciated tags (still available, but not updated)
+- `7.3-debian-buster`, `7.3-debian`
+- `7.3-debian-stretch`
+- `7.2-debian-buster`, `7.2-debian`
+- `7.2-debian-stretch`
+- `7.1-debian-buster`, `7.1-debian`
+- `7.1-debian-stretch`
+- `7.1-debian-jessie`
+- `5.6-debian-stretch`, `5.6-debian`
+- `5.6-debian-jessie`
 
 # What is SilverStripe Web
 
-SilverStripe Web is a Debian Docker container which comes pre-installed with Apache, PHP and a other common components used to run SilverStripe websites. This is designed to be light weight so it can cater to many. We recommend using your own `Dockerfile` and extending from this image (See: [Installing additional dependancies](#installing-additional-dependancies)).
+SilverStripe Web is a Docker container which comes pre-installed with requirements to run a Silverstripe application, such as PHP. This is designed to be light weight so it can cater to many. We recommend using your own `Dockerfile` and extending from this image (See: [Installing additional dependancies](#installing-additional-dependancies)).
 
 ## Requirements
 
@@ -41,21 +52,6 @@ This image comes pre-packaged with the following additional PHP Extensions
  - `zip`
 
 # How to use this image.
-
-## Install SilverStripe CMS 4.x (Optional)
-
-_If you already have a silverstripe installation, skip this step and use the directory of your installation instead of `/path/to/project`_
-
-### Requirements
-
- - [Composer](https://getcomposer.org/)
- - [PHP](https://www.php.net/manual/en/install.php) - _(PHP 7.3 Recommended)_
-
-Install the latest version of Silverstripe 4 to `/path/to/project` or a directory of your choosing.
-
-```bash
-composer create-project silverstripe/installer /path/to/project ^4
-```
 
 ## Start a `mysql` server instance
 
@@ -110,7 +106,7 @@ RUN yes | pecl install xdebug \
 COPY php.ini /usr/local/etc/php/
 # Copy current directory (website) directly to /var/www/html
 #     This can sometimes provide a performance improvement over mounting with volumes.
-COPY . /var/www/html/
+COPY . $DOCUMENT_ROOT
 ```
 
 # License
@@ -119,7 +115,7 @@ View [license information](http://php.net/license/) for the software contained i
 
 # Supported Docker versions
 
-This image is officially supported on Docker version 19.03.2.
+This image is officially supported on Docker version 19.03.12.
 
 Support for older versions (down to 1.6) is provided on a best-effort basis.
 
