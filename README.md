@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web)
-
 # Supported tags and respective `Dockerfile` links
 - [`7.4-apache-buster`, `7.4-apache`, `7.4`, `latest` (*7.4/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.4/apache/buster/Dockerfile)
 - [`7.3-apache-buster`, `7.3-apache`, `7.3` (*7.3/apache/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/apache/buster/Dockerfile)
@@ -53,41 +51,17 @@ This image comes pre-packaged with the following additional PHP Extensions
 
 # How to use this image.
 
-## Start a `mysql` server instance
-
-We name our database `database` so we can link our web container to it.
-
-Start a `mysql` container for our web server to connect to.
-
-```bash
-docker run -d -p 3306:3306 --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=1 mysql
-```
-
-_If using for sensitive data, we recommend replacing `MYSQL_ALLOW_EMPTY_PASSWORD=1` with `MYSQL_ROOT_PASSWORD=my-secret-pw`, where `my-secret-pw` is the password to be set for `SS_DATABASE_PASSWORD` in your `_ss_environment.php` or `.env` file._
-
-## Start a `brettt89/silverstripe-web` server instance
+## Start a `brettt89/silverstripe-web` apache container
 
 Start a `brettt89/silverstripe-web` container mounting the folder of your SilverStripe installation (e.g. `/path/to/project`) to `/var/www/html` and linking the `database` container using `--link database`.
 
 ```bash
-docker run -d -p 80:80 -v /path/to/project:/var/www/html --link database --name project1  brettt89/silverstripe-web
+docker run -d -p 80:80 -v /path/to/project:/var/www/html --link database --name project1  brettt89/silverstripe-web:7.3-apache-buster
 ```
 
 _You will require an `_ss_environment.php` or `.env` file to tell the environment which database to connect to. Examples have been provided in `./example` folder [example](./example/_ss_environment.php)_
 
 _By linking the database via `--link database`, we can connect to it from the web server using `database` as the hostname (e.g. `SS_DATABASE_SERVER=database`)._
-
-## Build the database
-
-Run a dev buid via http://localhost/dev/build for via CLI by using `docker exec`
-
-```bash
-docker exec project1 php ./vendor/silverstripe/framework/cli-script.php dev/build
-```
-
-## Access your website
-
-You should then be able to access your installation via http://localhost/. 
 
 # Installing additional dependancies
 
@@ -106,6 +80,8 @@ RUN yes | pecl install xdebug \
 COPY php.ini /usr/local/etc/php/
 # Copy current directory (website) directly to /var/www/html
 #     This can sometimes provide a performance improvement over mounting with volumes.
+#
+#     $DOCUMENT_ROOT by default = /var/www/html. You can change this ENV variable to change the mount on the image
 COPY . $DOCUMENT_ROOT
 ```
 
@@ -132,7 +108,3 @@ If you have any problems with or questions about this image, please contact us t
 You are invited to contribute new features, fixes, or updates, large or small; we are always thrilled to receive pull requests, and do our best to process them as fast as we can.
 
 Before you start to code, we recommend discussing your plans through a [GitHub issue](https://github.com/brettt89/silverstripe-web/issues), especially for more ambitious contributions. This gives other contributors a chance to point you in the right direction, give you feedback on your design, and help you find out if someone else is working on the same thing.
-
-# Credits
-
- - Franco Springveldt - [https://github.com/fspringveldt](https://github.com/fspringveldt)

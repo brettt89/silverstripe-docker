@@ -1,0 +1,10 @@
+FROM ubuntu:bionic
+
+RUN sed -i 's/archive.ubuntu.com/ucmirror.canterbury.ac.nz/g' /etc/apt/sources.list
+RUN apt-get update && apt-get install -yq --no-install-recommends libfcgi-bin curl netcat lynx && apt-get clean
+
+WORKDIR /app
+
+ADD files/ /app/
+
+ENTRYPOINT ["bash", "test.sh"]

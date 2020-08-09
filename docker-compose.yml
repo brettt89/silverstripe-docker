@@ -3,22 +3,38 @@ services:
   sut:
     build: 
       context: ./tests
-      dockerfile: Dockerfile.test
+      dockerfile: Dockerfile.sut
+    command: -d
     depends_on:
        - silverstripe
        - database
     environment:
-       - DISTRO=${DISTRO:-apache}
+       - TAG=${TAG:-7.4-apache-buster}
+       - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
     volumes:
        - codebase:/src
 
   silverstripe:
-    build: ${BUILD_DIR:-./src/7.4/apache/buster}
-    image: ${IMAGE:-brettt89/silverstripe-web:7.4-apache-buster}
+    build: 
+      context: ./tests
+      dockerfile: Dockerfile.test
+      args:
+         IMAGE: ${IMAGE:-localrepo/silverstripe-web}
+         TAG: ${TAG:-7.4-apache-buster}
+    image: ${IMAGE:-localrepo/silverstripe-web}:${TAG:-7.4-apache-buster}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
     depends_on:
-      - database
+       - database
+    environment:
+       - SS_TRUSTED_PROXY_IPS=*
+       - SS_ENVIRONMENT_TYPE=dev
+       - SS_DATABASE_SERVER=database
+       - SS_DATABASE_NAME=SS_mysite
+       - SS_DATABASE_USERNAME=root
+       - SS_DATABASE_PASSWORD=
+       - SS_DEFAULT_ADMIN_USERNAME=admin
+       - SS_DEFAULT_ADMIN_PASSWORD=password
 
   create-project:
     image: composer

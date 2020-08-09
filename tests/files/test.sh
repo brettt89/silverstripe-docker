@@ -1,49 +1,142 @@
 #!/bin/bash
 set -euo pipefail
 
-try_curl() {
-    local -i max_attempts=5
-    local -i attempt_num=1
+REQUEST_URI="/dev/build"
+TAG=${TAG:-7.4-apache-buster}
 
-    until RESULT=$(lynx -dump http://silverstripe/dev/build)
+# Options
+
+while getopts "d" opt; do
+  case $opt in
+    d)
+      DEBUG=d
+      ;;
+    *)
+      ;;
+  esac
+done
+
+# Retries a command on failure.
+# $1 - the max number of attempts
+# $2... - the command to run
+error() {
+    MESSAGE=${1:-Unknown error}
+    echo "[ERROR] ${MESSAGE}"
+    exit 1
+}
+
+warn() {
+    MESSAGE=$1
+    if [ -n "$DEBUG" ]; then
+        echo "[WARNING] ${MESSAGE}"
+    fi
+}
+
+info() {
+    MESSAGE=$1
+    if [ -n "$DEBUG" ]; then
+        echo "[INFO] ${MESSAGE}"
+    fi
+}
+
+retry() {
+    local -r -i max_attempts=$1; shift
+    local -r cmd=$*
+    local -i attempt_num=1
+    until $cmd
     do
         if ((attempt_num==max_attempts))
         then
-            echo "Attempt $attempt_num failed and there are no more attempts left!"
             return 1
         else
-            echo "Attempt $attempt_num failed! Trying again in $attempt_num seconds..."
             sleep $((attempt_num++))
         fi
     done
+}
+
+
+try_curl() {
+    RESULT=$(retry 5 lynx -dump http://silverstripe/dev/build)
 
     echo "${RESULT}"
 }
 
-cp .env /src/
-cp _ss_environment.php /src/
+try_cgi() {
+    info "Attempting to try cgi connection"
+    RESULT=$(REQUEST_URI=${REQUEST_URI:-/dev/build} \
+    SCRIPT_FILENAME=${WORK_DIR:-/var/www/html}/index.php \
+    SERVER_PROTOCOL=HTTP/1.1 \
+    REQUEST_METHOD=GET \
+    QUERY_STRING=${QUERY_STRING:-} \
+    ./wait-for silverstripe:9000 --quiet --timeout=20 -- cgi-fcgi -bind -connect silverstripe:9000 | lynx --dump -stdin)
 
+    echo "${RESULT}"
+}
+
+fail() {
+    MESSAGE="Tests failed!"
+    echo "${MESSAGE}"
+    echo ""
+    echo "REQUEST_URI: ${REQUEST_URI:-}"
+    echo "WORK_DIR: ${WORK_DIR:-}"
+    echo "QUERY_STRING: ${QUERY_STRING:-}"
+    exit 1
+}
+
+pass() {
+    MESSAGE=${1:-Tests passed!}
+    echo "${MESSAGE}"
+    exit 0
+}
+
+failure() {
+    MESSAGE="Unknown failure"
+    echo "[FAULT] ${MESSAGE}"
+}
+
+info "Test Runner"
+info " - Arguments"
+info "    - REQUEST_URI=${REQUEST_URI}"
+info "    - TAG=${TAG}"
+info " - Copying Environment files"
+cp _ss_environment.php /src/
+info " - Changing ownership of codebase to 'www-data'"
 chown -R www-data:www-data /src
 
-./wait-for database:3306 --quiet --timeout=20
-
-if [ "${DISTRO}" == "apache" ]; then
+info " - Checking database connection..."
+retry 5 ./wait-for database:3306 --quiet --timeout=30
+info "   - Good"
+info ""
+info "Running tests"
+if [[ "${TAG}" =~ "-apache-" ]]; then
+    info " - Detected apache in tag, trying test via curl"
     try_curl
+        
     if [[ "${RESULT}" =~ "Database build completed!" ]]; then
-        echo "Tests passed!"
-        exit 0
-    else
-        echo "Tests failed!"
-        exit 1
+        pass
     fi
-elif [ "${DISTRO}" == "fpm" ]; then
-    SCRIPT_NAME=/dev/build \
-    SCRIPT_FILENAME=/dev/build \
-    REQUEST_METHOD=GET \
-    ./wait-for silverstripe:9000 --quiet --timeout=20 -- cgi-fcgi -bind -connect silverstripe:9000
+elif [[ "${TAG}" =~ "-fpm-" ]]; then
+    info " - Detected fpm in tag, trying test via cgi"
+    WORK_DIR=${MOUNT_DIR:-/var/www/html}
+    [ -d "/src/public" ] && WORK_DIR="${WORK_DIR}/public"
+    
+    try_cgi
+    # Check if 302 and for devbuildtoken and retry
+    if [[ "${RESULT}" =~ "Status: 302" ]]; then
+        info "   - '302' response received, attempting to follow redirect"
+        TOKEN=$(echo "${RESULT}" | sed -nr 's/.*devbuildtoken=([a-z0-9]+).*/\1/p')
+        QUERY_STRING="devbuildtoken=${TOKEN}"
+        try_cgi
+    fi
 
-    echo "Tests passed!"
-    exit 0
+    if [[ "${RESULT}" =~ "Database build completed!" ]]; then
+        pass
+    fi
+elif [[ "${TAG}" =~ "-cli-" ]]; then
+    pass "Skipping CLI test"
 fi
-echo "Tests skipped!"
-exit 0
+
+# If we get here. Tests failed.
+fail
+
+trap failure EXIT
