@@ -31,7 +31,7 @@ RUN { \
                 echo '  DocumentRoot ${DOCUMENT_ROOT}'; \
                 echo '  LogLevel warn'; \
                 echo '  ServerSignature Off'; \
-                echo '  <Directory ${ENVVAR}>'; \
+                echo '  <Directory ${DOCUMENT_ROOT}>'; \
                 echo '    Options +FollowSymLinks'; \
                 echo '    Options -ExecCGI -Includes -Indexes'; \
                 echo '    AllowOverride all'; \
