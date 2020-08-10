@@ -1,51 +1,53 @@
+![Github CI](https://github.com/brettt89/silverstripe-docker/workflows/Test%20Silverstripe%20installation/badge.svg)
+
 # Supported Tags
 
-- `7.4-apache-buster`, `7.4-apache`, `7.4`, `latest`
-- `7.4-fpm-buster`, `7.4-fpm`
-- `7.3-apache-buster`, `7.3-apache`, `7.3`
-- `7.3-fpm-buster`, `7.3-fpm`
-- `7.3-cli-buster`, `7.3-cli`
-- `7.3-apache-stretch`
-- `7.3-fpm-stretch`
-- `7.3-cli-stretch`
-- `7.2-apache-buster`, `7.2-apache`, `7.2`
-- `7.2-fpm-buster`, `7.2-fpm`
-- `7.2-cli-buster`, `7.2-cli`
-- `7.2-apache-stretch`
-- `7.2-fpm-stretch`
-- `7.2-cli-stretch`
-- `7.1-apache-buster`, `7.1-apache`, `7.1`
-- `7.1-fpm-buster`, `7.1-fpm`
-- `7.1-cli-buster`, `7.1-cli`
-- `7.1-apache-stretch`
-- `7.1-fpm-stretch`
-- `7.1-cli-stretch`
-- `7.1-apache-jessie`
-- `7.1-fpm-jessie`
-- `7.1-cli-jessie`
-- `5.6-apache-stretch`, `5.6-apache`, `5.6`
-- `5.6-fpm-stretch`, `5.6-fpm`
-- `5.6-cli-stretch`, `5.6-cli`
-- `5.6-apache-jessie`
-- `5.6-fpm-jessie`
-- `5.6-cli-jessie`
+- [`7.4-apache-buster`, `7.4-apache`, `7.4`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/7.4/apache/Dockerfile)
+- [`7.4-fpm-buster`, `7.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/7.4/fpm/buster/Dockerfile)
+- [`7.3-apache-buster`, `7.3-apache`, `7.3`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/apache/buster/Dockerfile)
+- [`7.3-fpm-buster`, `7.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/fpm/buster/Dockerfile)
+- [`7.3-cli-buster`, `7.3-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/cli/buster/Dockerfile)
+- [`7.3-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/apache/stretch/Dockerfile)
+- [`7.3-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/fpm/stretch/Dockerfile)
+- [`7.3-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.3/cli/stretch/Dockerfile)
+- [`7.2-apache-buster`, `7.2-apache`, `7.2`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/apache/buster/Dockerfile)
+- [`7.2-fpm-buster`, `7.2-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/fpm/buster/Dockerfile)
+- [`7.2-cli-buster`, `7.2-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/cli/buster/Dockerfile)
+- [`7.2-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/apache/stretch/Dockerfile)
+- [`7.2-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/fpm/stretch/Dockerfile)
+- [`7.2-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.2/cli/stretch/Dockerfile)
+- [`7.1-apache-buster`, `7.1-apache`, `7.1`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/apache/buster/Dockerfile)
+- [`7.1-fpm-buster`, `7.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/fpm/buster/Dockerfile)
+- [`7.1-cli-buster`, `7.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/cli/buster/Dockerfile)
+- [`7.1-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/apache/stretch/Dockerfile)
+- [`7.1-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/fpm/stretch/Dockerfile)
+- [`7.1-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/cli/stretch/Dockerfile)
+- [`7.1-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/apache/jessie/Dockerfile)
+- [`7.1-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/fpm/jessie/Dockerfile)
+- [`7.1-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/7.1/cli/jessie/Dockerfile)
+- [`5.6-apache-stretch`, `5.6-apache`, `5.6`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/apache/stretch/Dockerfile)
+- [`5.6-fpm-stretch`, `5.6-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/fpm/stretch/Dockerfile)
+- [`5.6-cli-stretch`, `5.6-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/cli/stretch/Dockerfile)
+- [`5.6-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/apache/jessie/Dockerfile)
+- [`5.6-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/fpm/jessie/Dockerfile)
+- [`5.6-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/5.6/cli/jessie/Dockerfile)
 
 ## Depreciated Tags (still available, but not updated)
-- `7.3-debian-buster`, `7.3-debian`
-- `7.3-debian-stretch`
-- `7.2-debian-buster`, `7.2-debian`
-- `7.2-debian-stretch`
-- `7.1-debian-buster`, `7.1-debian`
-- `7.1-debian-stretch`
-- `7.1-debian-jessie`
-- `5.6-debian-stretch`, `5.6-debian`
-- `5.6-debian-jessie`
+- [`7.3-debian-buster`, `7.3-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.3/debian/buster/Dockerfile)
+- [`7.3-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.3/debian/stretch/Dockerfile)
+- [`7.2-debian-buster`, `7.2-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.2/buster/jessie/Dockerfile)
+- [`7.2-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.2/debian/stretch/Dockerfile)
+- [`7.1-debian-buster`, `7.1-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/buster/jessie/Dockerfile)
+- [`7.1-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/debian/stretch/Dockerfile)
+- [`7.1-debian-jessie`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/debian/jessie/Dockerfile)
+- [`5.6-debian-stretch`, `5.6-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/5.6/debian/stretch/Dockerfile)
+- [`5.6-debian-jessie`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/5.6/debian/jessie/Dockerfile)
 
 # What is Silverstripe CMS
 
 Silverstripe CMS is a free and open source Content Management System (CMS) and Framework for creating and maintaining websites and web applications. It provides an out of the box web-based administration panel that enables users to make modifications to parts of the website, which includes a WYSIWYG website editor. The core of the software is Silverstripe Framework, a PHP Web application framework.
 
-    https://en.wikipedia.org/wiki/Silverstripe_CMS
+https://en.wikipedia.org/wiki/Silverstripe_CMS
 
 ![Silverstripe CMS](docs/logo.png "Logo Title Text 1")
 
