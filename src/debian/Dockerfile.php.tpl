@@ -2,10 +2,10 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 
 # Install default PHP Extensions
 RUN install-php-extensions \
-		bcmath \
-		mysqli \
-		pdo \
-		pdo_mysql \
+        bcmath \
+        mysqli \
+        pdo \
+        pdo_mysql \
         intl \
         ldap \
         gd \
