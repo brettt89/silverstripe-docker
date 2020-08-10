@@ -20,4 +20,4 @@ RUN { \
                 echo '</VirtualHost>'; \
 	} | tee /etc/apache2/sites-available/000-default.conf && \
     echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
-    a2enmod rewrite expires remoteip cgid
+    a2enmod rewrite expires remoteip cgid headers
