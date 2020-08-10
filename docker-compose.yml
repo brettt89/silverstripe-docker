@@ -16,12 +16,11 @@ services:
 
   silverstripe:
     build: 
-      context: ./tests
-      dockerfile: Dockerfile.test
+      context: ${BUILD_DIR:-7.4/apache/buster}
+      dockerfile: Dockerfile
       args:
-         IMAGE: ${IMAGE:-localrepo/silverstripe-web}
          TAG: ${TAG:-7.4-apache-buster}
-    image: ${IMAGE:-localrepo/silverstripe-web}:${TAG:-7.4-apache-buster}
+    image: ${IMAGE:-brettt89/silverstripe-web}:${TAG:-7.4-apache-buster}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
     depends_on:
@@ -38,14 +37,7 @@ services:
 
   create-project:
     image: composer
-    command: create-project silverstripe/installer . ^${FRAMEWORK:-4} --ignore-platform-reqs --no-install
-    volumes:
-       - codebase:/app
-       - ${COMPOSER_HOME:-~/.composer}:/tmp
-
-  install-project:
-    image: composer
-    command: install --ignore-platform-reqs
+    command: create-project silverstripe/installer . ^${FRAMEWORK:-4} --ignore-platform-reqs
     volumes:
        - codebase:/app
        - ${COMPOSER_HOME:-~/.composer}:/tmp

@@ -39,19 +39,15 @@ build-image:
 new-test:
 	@echo "Running new test"
 	@echo "  Tag: $(TAG)"
+	@echo "  Build dir: $(subst -,/,$(subst -,/,$(TAG)))"
 	@echo
 	@$(MAKE) --quiet clean
-	@$(MAKE) --quiet build-image $(TAG)
-	@$(MAKE) --quiet test-build-image $(TAG)
+	@BUILD_DIR=$(subst -,/,$(subst -,/,$(TAG))) $(MAKE) --quiet test-build-image $(TAG)
 	@FRAMEWORK=$(FRAMEWORK) $(MAKE) --quiet create-project $(TAG)
-	@$(MAKE) --quiet install-project $(TAG)
 	@$(MAKE) --quiet test $(TAG)
 
 create-project:
 	TAG=$(TAG) FRAMEWORK=$(FRAMEWORK) docker-compose run create-project
-
-install-project:
-	TAG=$(TAG) docker-compose run install-project
 
 test-build-image:
 	TAG=${TAG} docker-compose build

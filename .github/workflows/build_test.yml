@@ -3,9 +3,19 @@ on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
   push:
+    paths-ignore:
+      - 'README.md'
+      - 'docs/'
+      - 'LICENCE'
+      - 'Makefile'
     branches:
       - master
   pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'docs/'
+      - 'LICENCE'
+      - 'Makefile'
     branches:
       - master
       - release/**
@@ -38,11 +48,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Pull Docker images
-        run: docker-compose pull
-
-      - name: Build Image
-        run: ./build/build-image.sh ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+      - name: Build Images
+        env:
+          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          BUILD_DIR: ${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+        run: docker-compose build
 
       - name: Get Composer Cache Directory
         id: composer-data
@@ -62,11 +72,6 @@ jobs:
           FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
         run: docker-compose run create-project
-
-      - name: Install Silverstripe test project
-        env:
-          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run install-project
 
       - name: Run tests
         env:
@@ -99,11 +104,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Pull Docker images
-        run: docker-compose pull
-
-      - name: Build Image
-        run: ./build/build-image.sh ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+      - name: Build Images
+        env:
+          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          BUILD_DIR: ${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+        run: docker-compose build
 
       - name: Get Composer Cache Directory
         id: composer-data
@@ -123,11 +128,6 @@ jobs:
           FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
         run: docker-compose run create-project
-
-      - name: Install Silverstripe test project
-        env:
-          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run install-project
 
       - name: Run tests
         env:
