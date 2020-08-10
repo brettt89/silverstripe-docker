@@ -1,0 +1,140 @@
+name: Test Silverstripe installation
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - release/**
+  # Also trigger on page_build, as well as release created events
+  page_build:
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
+jobs:
+  build:
+    # Job name is Greeting
+    name: Build & Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [stretch, buster]
+        php: [7.2, 7.3, 7.4]
+        framework: [3, 4]
+        distro: [apache, fpm, cli]
+        exclude:
+          - os: stretch
+            php: 7.4
+            framework: 3
+          - os: stretch
+            php: 7.4
+            framework: 4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker images
+        run: docker-compose pull
+
+      - name: Build Image
+        run: ./build/build-image.sh ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+
+      - name: Get Composer Cache Directory
+        id: composer-data
+        run: |
+          echo "::set-output name=dir::$(composer config --global data-dir)"
+
+      - name: Cache Composer Downloads
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-data.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.framework }}-${{ matrix.php }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.framework }}
+
+      - name: Create Silverstripe ${{ matrix.framework }} test project
+        env:
+          FRAMEWORK: ${{ matrix.framework }}
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose run create-project
+
+      - name: Install Silverstripe test project
+        env:
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose run install-project
+
+      - name: Run tests
+        env:
+          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+        run: docker-compose run sut
+
+      - name: The job has failed
+        if: ${{ failure() }}
+        run: |
+          docker-compose logs
+
+  # Legacy PHP 5.6 and 7.1 tests
+  build_legacy:
+    # Job name is Greeting
+    name: Legacy Build & Test
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [jessie, stretch, buster]
+        php: [5.6, 7.1]
+        framework: [3, 4]
+        distro: [apache, fpm, cli]
+        exclude:
+        - os: buster
+          php: 5.6
+        - php: 5.6
+          framework: 4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker images
+        run: docker-compose pull
+
+      - name: Build Image
+        run: ./build/build-image.sh ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+
+      - name: Get Composer Cache Directory
+        id: composer-data
+        run: |
+          echo "::set-output name=dir::$(composer config --global data-dir)"
+
+      - name: Cache Composer Downloads
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-data.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.framework }}-${{ matrix.php }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.framework }}-
+
+      - name: Create Silverstripe ${{ matrix.framework }} test project
+        env:
+          FRAMEWORK: ${{ matrix.framework }}
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose run create-project
+
+      - name: Install Silverstripe test project
+        env:
+          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+        run: docker-compose run install-project
+
+      - name: Run tests
+        env:
+          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+        run: docker-compose run sut
+
+      - name: The job has failed
+        if: ${{ failure() }}
+        run: |
+          docker-compose logs

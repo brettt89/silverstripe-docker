@@ -1,142 +1,181 @@
-# Supported tags and respective `Dockerfile` links
+# Supported Tags
 
-- [`7.3-debian-buster`, `7.3-debian` `7.3` `latest` (*7.3/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/buster/Dockerfile)
-- [`7.3-debian-stretch` (*7.3/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.3/debian/stretch/Dockerfile)
-- [`7.2-debian-buster`, `7.2-debian` `7.2` (*7.2/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/buster/Dockerfile)
-- [`7.2-debian-stretch` (*7.2/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.2/debian/stretch/Dockerfile)
-- [`7.1-debian-buster`, `7.1-debian` `7.1` (*7.1/debian/buster/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/buster/Dockerfile)
-- [`7.1-debian-stretch` (*7.1/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/stretch/Dockerfile)
-- [`7.1-debian-jessie` (*7.1/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/7.1/debian/jessie/Dockerfile)
-- [`5.6-debian-stretch`, `5.6-debian` `5.6` (*5.6/debian/stretch/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/stretch/Dockerfile)
-- [`5.6-debian-jessie` (*5.6/debian/jessie/Dockerfile*)](https://github.com/brettt89/silverstripe-web/blob/master/5.6/debian/jessie/Dockerfile)
+- `7.4-apache-buster`, `7.4-apache`, `7.4`, `latest`
+- `7.4-fpm-buster`, `7.4-fpm`
+- `7.3-apache-buster`, `7.3-apache`, `7.3`
+- `7.3-fpm-buster`, `7.3-fpm`
+- `7.3-cli-buster`, `7.3-cli`
+- `7.3-apache-stretch`
+- `7.3-fpm-stretch`
+- `7.3-cli-stretch`
+- `7.2-apache-buster`, `7.2-apache`, `7.2`
+- `7.2-fpm-buster`, `7.2-fpm`
+- `7.2-cli-buster`, `7.2-cli`
+- `7.2-apache-stretch`
+- `7.2-fpm-stretch`
+- `7.2-cli-stretch`
+- `7.1-apache-buster`, `7.1-apache`, `7.1`
+- `7.1-fpm-buster`, `7.1-fpm`
+- `7.1-cli-buster`, `7.1-cli`
+- `7.1-apache-stretch`
+- `7.1-fpm-stretch`
+- `7.1-cli-stretch`
+- `7.1-apache-jessie`
+- `7.1-fpm-jessie`
+- `7.1-cli-jessie`
+- `5.6-apache-stretch`, `5.6-apache`, `5.6`
+- `5.6-fpm-stretch`, `5.6-fpm`
+- `5.6-cli-stretch`, `5.6-cli`
+- `5.6-apache-jessie`
+- `5.6-fpm-jessie`
+- `5.6-cli-jessie`
 
-[![Build Status](https://travis-ci.org/brettt89/silverstripe-web.svg?branch=master)](https://travis-ci.org/brettt89/silverstripe-web)
+## Depreciated Tags (still available, but not updated)
+- `7.3-debian-buster`, `7.3-debian`
+- `7.3-debian-stretch`
+- `7.2-debian-buster`, `7.2-debian`
+- `7.2-debian-stretch`
+- `7.1-debian-buster`, `7.1-debian`
+- `7.1-debian-stretch`
+- `7.1-debian-jessie`
+- `5.6-debian-stretch`, `5.6-debian`
+- `5.6-debian-jessie`
 
-# What is SilverStripe Web
+# What is Silverstripe CMS
 
-SilverStripe Web is a Debian Docker container which comes pre-installed with Apache, PHP and a other common components used to run SilverStripe websites. This is designed to be light weight so it can cater to many. We recommend using your own `Dockerfile` and extending from this image (See: [Installing additional dependancies](#installing-additional-dependancies)).
+Silverstripe CMS is a free and open source Content Management System (CMS) and Framework for creating and maintaining websites and web applications. It provides an out of the box web-based administration panel that enables users to make modifications to parts of the website, which includes a WYSIWYG website editor. The core of the software is Silverstripe Framework, a PHP Web application framework.
 
-## Requirements
+    https://en.wikipedia.org/wiki/Silverstripe_CMS
 
-- [Docker](https://docs.docker.com/)
+![Silverstripe CMS](docs/logo.png "Logo Title Text 1")
 
-## Build names
+# How to use this image
 
-Each build is prefixed with a version (e.g. `5.6` / `7.1` / `7.2` / `7.3`). This denotes the PHP version this build is built from.
+### Basic usage
 
-There are multiple available for each PHP version, E.g. `7.1-debian-stretch`. Take a look at the available tags to pick what is most appropriate for you.
+Running the `brettt89/silverstripe-web` image with Apache is as simple as
 
-## Environment Info
-
-This image comes pre-packaged with the following additional PHP Extensions
-
- - `bcmath`
- - `mysql`
- - `pdo`
- - `intl`
- - `ldap`
- - `gd`
- - `tidy`
- - `xsl`
- - `zip`
-
-# How to use this image.
-
-## Install SilverStripe CMS 4.x (Optional)
-
-_If you already have a silverstripe installation, skip this step and use the directory of your installation instead of `/path/to/project`_
-
-### Requirements
-
- - [Composer](https://getcomposer.org/)
- - [PHP](https://www.php.net/manual/en/install.php) - _(PHP 7.3 Recommended)_
-
-Install the latest version of Silverstripe 4 to `/path/to/project` or a directory of your choosing.
-
-```bash
-composer create-project silverstripe/installer /path/to/project ^4
+```shell
+$ docker run -d \
+  --volume $PWD:/app \
+  brettt89/silverstripe-web:7.4-apache
 ```
 
-## Start a `mysql` server instance
-
-We name our database `database` so we can link our web container to it.
-
-Start a `mysql` container for our web server to connect to.
-
-```bash
-docker run -d -p 3306:3306 --name database --env MYSQL_ALLOW_EMPTY_PASSWORD=1 mysql
-```
-
-_If using for sensitive data, we recommend replacing `MYSQL_ALLOW_EMPTY_PASSWORD=1` with `MYSQL_ROOT_PASSWORD=my-secret-pw`, where `my-secret-pw` is the password to be set for `SS_DATABASE_PASSWORD` in your `_ss_environment.php` or `.env` file._
-
-## Start a `brettt89/silverstripe-web` server instance
-
-Start a `brettt89/silverstripe-web` container mounting the folder of your SilverStripe installation (e.g. `/path/to/project`) to `/var/www/html` and linking the `database` container using `--link database`.
-
-```bash
-docker run -d -p 80:80 -v /path/to/project:/var/www/html --link database --name project1  brettt89/silverstripe-web
-```
-
-_You will require an `_ss_environment.php` or `.env` file to tell the environment which database to connect to. Examples have been provided in `./example` folder [example](./example/_ss_environment.php)_
-
-_By linking the database via `--link database`, we can connect to it from the web server using `database` as the hostname (e.g. `SS_DATABASE_SERVER=database`)._
-
-## Build the database
-
-Run a dev buid via http://localhost/dev/build for via CLI by using `docker exec`
-
-```bash
-docker exec project1 php ./vendor/silverstripe/framework/cli-script.php dev/build
-```
-
-## Access your website
-
-You should then be able to access your installation via http://localhost/. 
-
-# Installing additional dependancies
-
-If you are wanting to add additional PHP extensions or other changes, we recommend using a `Dockerfile` to extend this image and customize to suit.
+### Create a Dockerfile in your PHP project
 
 ```Dockerfile
-FROM brettt89/silverstripe-web:7.3
+FROM brettt89/silverstripe-web:7.4-apache
+ENV DOCUMENT_ROOT /usr/src/myapp
 
-# Adding Xdebug
-RUN yes | pecl install xdebug \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
-
-# Replace current php.ini with custom version of php.ini
-COPY php.ini /usr/local/etc/php/
-# Copy current directory (website) directly to /var/www/html
-#     This can sometimes provide a performance improvement over mounting with volumes.
-COPY . /var/www/html/
+COPY . $DOCUMENT_ROOT
+WORKDIR $DOCUMENT_ROOT
 ```
+
+### Create a `docker-compose.yml` in your PHP project
+
+```yaml
+version: "3.8"
+services:
+  silverstripe:
+    image: brettt89/silverstripe-web:7.4-apache
+    volumes:
+       - .:/var/www/html
+    depends_on:
+       - database
+    environment:
+       - DOCUMENT_ROOT=/var/www/html/public
+       - SS_TRUSTED_PROXY_IPS=*
+       - SS_ENVIRONMENT_TYPE=dev
+       - SS_DATABASE_SERVER=database
+       - SS_DATABASE_NAME=SS_mysite
+       - SS_DATABASE_USERNAME=root
+       - SS_DATABASE_PASSWORD=
+       - SS_DEFAULT_ADMIN_USERNAME=admin
+       - SS_DEFAULT_ADMIN_PASSWORD=password
+
+  database:
+    image: mysql:5.7
+    environment:
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+       - db-data:/var/lib/mysql
+volumes:
+     db-data:
+```
+
+# Environment Variables
+
+Environment variables can be used to assist with configuration of your container. Below lists the exiting Environment variables that can be used to customize your container.
+
+ - `DOCUMENT_ROOT` - Apache's document root location. (For SilverStripe 4 installations, you will want to set this to your `/public` directory. E.g. `/var/www/html/public`)
+
+# How to install more PHP extensions
+
+Many extensions are already compiled into the image, so it's worth checking the output of `php -m` or `php -i` before going through the effort of compiling more.
+
+We provide the helper scripts [`docker-php-extension-installer`](https://hub.docker.com/r/mlocati/php-extension-installer) to more easily install PHP extensions.
+
+```Dockerfile
+FROM brett89/silverstripe-web:7.4-apache
+RUN docker-php-extension-installer xdebug
+```
+
+### Default extensions
+
+The following extensions are installed by default ontop of the default PHP image.
+
+- `bcmath`
+- `mysqli`
+- `pdo`
+- `pdo_mysql`
+- `intl`
+- `ldap`
+- `gd`
+- `soap`
+- `tidy`
+- `xsl`
+- `zip`
+- `exif`
+- `gmp`
+
+# Image Variants
+
+The php images come in many flavors, each designed for a specific use case.
+
+Some of these tags may have names like `buster` or `stretch` in them. These are the suite code names for releases of Debian and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you'll likely want to specify one of these explicitly to minimize breakage when there are new releases of Debian.
+
+## `brettt89/silverstripe-web:<version>-apache`
+
+This image contains Debian's Apache httpd in conjunction with PHP (as mod_php) and uses mpm_prefork by default. See Basic Usage for examples on how to use.
+
+## `brettt89/silverstripe-web:<version>-fpm`
+
+This variant contains PHP-FPM, which is a FastCGI implementation for PHP. See the PHP-FPM website for more information about PHP-FPM.
+
+In order to use this image variant, some kind of reverse proxy (such as NGINX, Apache, or other tool which speaks the FastCGI protocol) will be required.
+
+Some potentially helpful resources:
+
+- [PHP-FPM.org](https://php-fpm.org/)
+- [simplified example by @md5](https://gist.github.com/md5/d9206eacb5a0ff5d6be0)
+- [very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
+- [Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
+- [Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
 
 # License
 
 View [license information](http://php.net/license/) for the software contained in this image.
 
-# Supported Docker versions
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
 
-This image is officially supported on Docker version 19.03.2.
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
 
-Support for older versions (down to 1.6) is provided on a best-effort basis.
-
-Please see [the Docker installation documentation](https://docs.docker.com/installation/) for details on how to upgrade your Docker daemon.
-
-# User Feedback
-
-## Issues
+### Issues
 
 If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/brettt89/silverstripe-web/issues). 
 
-## Contributing
+### Contributing
 
 You are invited to contribute new features, fixes, or updates, large or small; we are always thrilled to receive pull requests, and do our best to process them as fast as we can.
 
 Before you start to code, we recommend discussing your plans through a [GitHub issue](https://github.com/brettt89/silverstripe-web/issues), especially for more ambitious contributions. This gives other contributors a chance to point you in the right direction, give you feedback on your design, and help you find out if someone else is working on the same thing.
-
-# Credits
-
- - Franco Springveldt - [https://github.com/fspringveldt](https://github.com/fspringveldt)

@@ -1,0 +1,61 @@
+version: "3.8"
+services:
+  sut:
+    build: 
+      context: ./tests
+      dockerfile: Dockerfile.sut
+    command: -d
+    depends_on:
+       - silverstripe
+       - database
+    environment:
+       - TAG=${TAG:-7.4-apache-buster}
+       - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
+    volumes:
+       - codebase:/src
+
+  silverstripe:
+    build: 
+      context: ./tests
+      dockerfile: Dockerfile.test
+      args:
+         IMAGE: ${IMAGE:-localrepo/silverstripe-web}
+         TAG: ${TAG:-7.4-apache-buster}
+    image: ${IMAGE:-localrepo/silverstripe-web}:${TAG:-7.4-apache-buster}
+    volumes:
+       - codebase:${MOUNT_DIR:-/var/www/html}
+    depends_on:
+       - database
+    environment:
+       - SS_TRUSTED_PROXY_IPS=*
+       - SS_ENVIRONMENT_TYPE=dev
+       - SS_DATABASE_SERVER=database
+       - SS_DATABASE_NAME=SS_mysite
+       - SS_DATABASE_USERNAME=root
+       - SS_DATABASE_PASSWORD=
+       - SS_DEFAULT_ADMIN_USERNAME=admin
+       - SS_DEFAULT_ADMIN_PASSWORD=password
+
+  create-project:
+    image: composer
+    command: create-project silverstripe/installer . ^${FRAMEWORK:-4} --ignore-platform-reqs --no-install
+    volumes:
+       - codebase:/app
+       - ${COMPOSER_HOME:-~/.composer}:/tmp
+
+  install-project:
+    image: composer
+    command: install --ignore-platform-reqs
+    volumes:
+       - codebase:/app
+       - ${COMPOSER_HOME:-~/.composer}:/tmp
+
+  database:
+    image: mysql:5.7
+    environment:
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+       - db-data:/var/lib/mysql
+volumes:
+     db-data:
+     codebase:
