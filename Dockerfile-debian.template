@@ -1,4 +1,4 @@
-FROM php:7.1-cli-jessie
+FROM php:%%PHP_VERSION%%-%%VARIANT%%-%%DISTRO%%
 MAINTAINER Brett Tasker '<brett@silverstripe.com>'
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
@@ -39,3 +39,4 @@ RUN echo 'date.timezone = Pacific/Auckland' > /usr/local/etc/php/conf.d/timezone
         echo 'error_log = /dev/stderr'; \
     } > /usr/local/etc/php/conf.d/errors.ini
 
+%%VARIANT_EXTRAS%%

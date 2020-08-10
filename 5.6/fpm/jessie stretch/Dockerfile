@@ -1,4 +1,4 @@
-FROM php:7.1-cli-jessie
+FROM php:5.6-fpm-jessie stretch
 MAINTAINER Brett Tasker '<brett@silverstripe.com>'
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
