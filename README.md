@@ -124,7 +124,7 @@ RUN docker-php-extension-installer xdebug
 
 ### Default extensions
 
-The following extensions are installed by default ontop of the default PHP image.
+The following extensions are installed by default on top of the default PHP image.
 
 - `bcmath`
 - `mysqli`
