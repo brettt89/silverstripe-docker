@@ -26,11 +26,18 @@ all:
 	@echo "  <tag>                   Tag to build/test. e.g. '5.6-apache-jessie'"
 
 update:
-	./update.sh $(ARG)
+	./build/update.sh $(ARG)
+
+build:
+	./build/build-regex.sh $(ARG)
+
+build-image:
+	./build/build-image.sh $(TAG)
 
 new-test:
 	@echo "Running new test"
 	@echo "  Tag: $(TAG)"
+	@echo "  BuildDir: src/$(subst -,/,$(TAG))"
 	@echo
 	@$(MAKE) --quiet clean
 	@FRAMEWORK=$(FRAMEWORK) $(MAKE) --quiet create-project $(TAG)
@@ -40,7 +47,7 @@ create-project:
 	TAG=$(TAG) FRAMEWORK=$(FRAMEWORK) docker-compose run create-project
 
 test:
-	TAG=$(TAG) docker-compose run sut
+	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
 
 clean:
 	docker-compose down --volume

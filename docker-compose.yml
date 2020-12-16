@@ -16,7 +16,7 @@ services:
 
   silverstripe:
     build: 
-      context: ${BUILD_DIR:-7.4/apache/buster}
+      context: ${BUILD_DIR:-src/7.4/apache/buster}
       dockerfile: Dockerfile
       args:
          TAG: ${TAG:-7.4-apache-buster}
