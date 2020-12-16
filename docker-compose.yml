@@ -35,9 +35,8 @@ services:
        - SS_DEFAULT_ADMIN_USERNAME=admin
        - SS_DEFAULT_ADMIN_PASSWORD=password
 
-  create-project:
+  composer:
     image: composer
-    command: create-project silverstripe/installer . ^${FRAMEWORK:-4} --ignore-platform-reqs
     volumes:
        - codebase:/app
        - ${COMPOSER_HOME:-~/.composer}:/tmp

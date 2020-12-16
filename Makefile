@@ -44,7 +44,9 @@ new-test:
 	@$(MAKE) --quiet test $(TAG)
 
 create-project:
-	TAG=$(TAG) FRAMEWORK=$(FRAMEWORK) docker-compose run create-project
+	TAG=$(TAG) docker-compose run composer config -g platform.php $(firstword $(subst -, ,$(TAG)))
+	TAG=$(TAG) docker-compose run composer config -g platform.ext-intl 1
+	TAG=$(TAG) docker-compose run composer create-project silverstripe/installer . ^$(FRAMEWORK)
 
 test:
 	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
