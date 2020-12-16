@@ -71,9 +71,11 @@ jobs:
 
       - name: Create Silverstripe ${{ matrix.framework }} test project
         env:
-          FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run create-project
+        run: |
+          docker-compose run composer config -g platform.php ${{ matrix.php }}
+          docker-compose run composer config -g platform.ext-intl 1
+          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
@@ -129,9 +131,11 @@ jobs:
 
       - name: Create Silverstripe ${{ matrix.framework }} test project
         env:
-          FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run create-project
+        run: |
+          docker-compose run composer config -g platform.php ${{ matrix.php }}
+          docker-compose run composer config -g platform.ext-intl 1
+          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
