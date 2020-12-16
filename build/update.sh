@@ -44,53 +44,25 @@ sed_escape_rhs() {
 	sed -e 's/[\/&]/\\&/g; $!a\'$'\n''\\n' <<<"$*" | tr -d '\n'
 }
 
-build_debian() {
+build_dockerfile() {
     phpVersion="$1"
     variant="$2"
-    extras="$3"
-    phpVersionDir="$phpVersion"
-    for distro in ${variantDebianDistros[$phpVersion]}; do
-        dir="$buildDir/$phpVersionDir/$variant/$distro"
-        mkdir -p "$dir"
+    distro="$3"
 
-        sed -r \
-            -e 's!%%PHP_VERSION%%!'"$phpVersion"'!g' \
-            -e 's!%%VARIANT%%!'"$variant"'!g' \
-            -e 's!%%DISTRO%%!'"$distro"'!g' \
-            -e 's!%%VARIANT_EXTRAS%%!'"$(sed_escape_rhs "$extras")"'!g' \
-            "$currentDir/Dockerfile-debian.template" > "$dir/Dockerfile"
+    extras="${variantExtras[$variant]:-}"
+    if [ -n "$extras" ]; then
+        extras=$'\n'"$extras"$'\n'
+    fi
 
-        case "$phpVersion" in
-            7.2 )
-                sed -ri \
-                    -e '/libzip-dev/d' \
-                    "$dir/Dockerfile"
-                ;;
-        esac
-
-        case "$phpVersion" in
-            7.2 | 7.3 )
-                sed -ri \
-                    -e 's!gd --with-freetype --with-jpeg!gd --with-freetype-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr!g' \
-                    "$dir/Dockerfile"
-                ;;
-        esac
-    done
-}
-
-build_alpine() {
-    phpVersion="$1"
-    variant="$2"
-    extras="$3"
-    phpVersionDir="$phpVersion"
-    dir="$buildDir/$phpVersionDir/$variant/alpine"
+    dir="$buildDir/$phpVersion/$variant/$distro"
     mkdir -p "$dir"
 
     sed -r \
         -e 's!%%PHP_VERSION%%!'"$phpVersion"'!g' \
         -e 's!%%VARIANT%%!'"$variant"'!g' \
+        -e 's!%%DISTRO%%!'"$distro"'!g' \
         -e 's!%%VARIANT_EXTRAS%%!'"$(sed_escape_rhs "$extras")"'!g' \
-        "$currentDir/Dockerfile-alpine.template" > "$dir/Dockerfile"
+        "$currentDir/Dockerfile.template" > "$dir/Dockerfile"
 
     case "$phpVersion" in
         7.2 )
@@ -99,7 +71,7 @@ build_alpine() {
                 "$dir/Dockerfile"
             ;;
     esac
-    
+
     case "$phpVersion" in
         7.2 | 7.3 )
             sed -ri \
@@ -114,19 +86,17 @@ for phpVersion in "${phpVersions[@]}"; do
 	# phpVersion="${phpVersion#php}"
 
 	for variant in "${variantImplementation[@]}"; do
-		extras="${variantExtras[$variant]:-}"
-		if [ -n "$extras" ]; then
-			extras=$'\n'"$extras"$'\n'
-		fi
 
         for base in ${variantBases[$variant]}; do
 
             case "$base" in
                 debian )
-                    build_debian "$phpVersion" "$variant" "$extras"
+                    for distro in ${variantDebianDistros[$phpVersion]}; do
+                        build_dockerfile "$phpVersion" "$variant" "$distro"
+                    done
                     ;;
                 alpine )
-                    build_alpine "$phpVersion" "$variant" "$extras"
+                    build_dockerfile "$phpVersion" "$variant" "alpine"
             esac
 		
             
