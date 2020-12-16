@@ -118,13 +118,13 @@ Many extensions are already compiled into the image, so it's worth checking the 
 We provide the helper scripts [`docker-php-extension-installer`](https://hub.docker.com/r/mlocati/php-extension-installer) to more easily install PHP extensions.
 
 ```Dockerfile
-FROM brett89/silverstripe-web:7.4-apache
+FROM brettt89/silverstripe-web:7.4-apache
 RUN docker-php-extension-installer xdebug
 ```
 
 ### Default extensions
 
-The following extensions are installed by default ontop of the default PHP image.
+The following extensions are installed by default on top of the default PHP image.
 
 - `bcmath`
 - `mysqli`
