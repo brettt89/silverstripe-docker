@@ -9,7 +9,7 @@ DISTRO_ARRAY=("stretch" "buster" "alpine")
 
 LEGACY_PHP_VERSION_ARRAY=("5.6" "7.1")
 LEGACY_VARIATION_ARRAY=("apache" "fpm" "cli")
-LEGACY_DISTRO_ARRAY=("jessie" "stretch" "buster")
+LEGACY_DISTRO_ARRAY=("jessie" "stretch" "buster" "alpine")
 
 function build() {
     local ARG_VERSION=${1:-}
