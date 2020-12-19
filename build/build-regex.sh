@@ -3,7 +3,7 @@ set -euo pipefail
 
 REGEX="${1:-}"
 
-PHP_VERSION_ARRAY=("7.4" "7.3" "7.2")
+PHP_VERSION_ARRAY=("8.0" "7.4" "7.3" "7.2")
 VARIATION_ARRAY=("apache" "fpm" "cli")
 DISTRO_ARRAY=("stretch" "buster")
 
@@ -43,7 +43,7 @@ function loop() {
                 if [ "$VERSION" == "5.6" ] && [ "$DISTRO" == "buster" ]; then
                     continue
                 fi
-                
+
                 build "$VERSION" "$VARIATION" "$DISTRO"
             done
         done
