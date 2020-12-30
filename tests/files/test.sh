@@ -101,7 +101,12 @@ info "    - TAG=${TAG}"
 info " - Copying Environment files"
 cp _ss_environment.php /src/
 info " - Changing ownership of codebase to 'www-data'"
-chown -R www-data:www-data /src
+
+if [[ "${TAG}" =~ "alpine" ]]; then
+    chown -R 82:82 /src
+else
+    chown -R www-data:www-data /src
+fi
 
 info " - Checking database connection..."
 retry 5 ./wait-for database:3306 --quiet --timeout=30

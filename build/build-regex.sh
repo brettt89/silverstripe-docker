@@ -5,11 +5,11 @@ REGEX="${1:-}"
 
 PHP_VERSION_ARRAY=("7.4" "7.3" "7.2")
 VARIATION_ARRAY=("apache" "fpm" "cli")
-DISTRO_ARRAY=("stretch" "buster")
+DISTRO_ARRAY=("stretch" "buster" "alpine")
 
 LEGACY_PHP_VERSION_ARRAY=("5.6" "7.1")
 LEGACY_VARIATION_ARRAY=("apache" "fpm" "cli")
-LEGACY_DISTRO_ARRAY=("jessie" "stretch" "buster")
+LEGACY_DISTRO_ARRAY=("jessie" "stretch" "buster" "alpine")
 
 function build() {
     local ARG_VERSION=${1:-}
@@ -41,6 +41,10 @@ function loop() {
                 fi
 
                 if [ "$VERSION" == "5.6" ] && [ "$DISTRO" == "buster" ]; then
+                    continue
+                fi
+
+                if [ "$DISTRO" == "alpine" ] && [ "$VARIATION" == "apache" ]; then
                     continue
                 fi
                 

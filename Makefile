@@ -11,8 +11,7 @@ all:
 	@echo "Silverstripe Web - Docker image builder"
 	@echo
 	@echo "Basic Commands"
-	@echo "  build <regex>           Build and tag all images. Filter using <regex> on tag structure."
-	@echo "  build-image <tag>       Build and tag specific image."
+	@echo "  build <version>         Build Dockerfiles. Filter PHP using <version>."
 	@echo
 	@echo "Test Commands"
 	@echo "  new-test <tag>          Start a new test using <tag>, Default: 7.4-apache-buster."
@@ -21,14 +20,13 @@ all:
 	@echo
 	@echo "Advanced Test Commands"
 	@echo "  create-project <tag>    Create new Silverstripe Project".
-	@echo "                            Environment variable FRAMEWORK=3 to change version"
-	@echo "  install-project <tag>   Install project dependancies"
-	@echo "  test-build-image <tag>  Test the image has been built locally"
-	@echo "  build-test              Build 'sut' test image, used for running tests"
 	@echo
 	@echo "Parameters"
-	@echo "  <regex>                 Regex for matching against tag. e.g. '7.4'"
+	@echo "  <version>               PHP version. Format '<major>.<minor>'. e.g. '7.4'"
 	@echo "  <tag>                   Tag to build/test. e.g. '5.6-apache-jessie'"
+
+update:
+	./build/update.sh $(ARG)
 
 build:
 	./build/build-regex.sh $(ARG)
@@ -39,24 +37,19 @@ build-image:
 new-test:
 	@echo "Running new test"
 	@echo "  Tag: $(TAG)"
-	@echo "  Build dir: $(subst -,/,$(subst -,/,$(TAG)))"
+	@echo "  BuildDir: src/$(subst -,/,$(TAG))"
 	@echo
 	@$(MAKE) --quiet clean
-	@BUILD_DIR=$(subst -,/,$(subst -,/,$(TAG))) $(MAKE) --quiet test-build-image $(TAG)
 	@FRAMEWORK=$(FRAMEWORK) $(MAKE) --quiet create-project $(TAG)
 	@$(MAKE) --quiet test $(TAG)
 
 create-project:
-	TAG=$(TAG) FRAMEWORK=$(FRAMEWORK) docker-compose run create-project
-
-test-build-image:
-	TAG=${TAG} docker-compose build
-
-build-test:
-	TAG=$(TAG) docker-compose build sut
+	TAG=$(TAG) docker-compose run composer config -g platform.php $(firstword $(subst -, ,$(TAG)))
+	TAG=$(TAG) docker-compose run composer config -g platform.ext-intl 1
+	TAG=$(TAG) docker-compose run composer create-project silverstripe/installer . ^$(FRAMEWORK)
 
 test:
-	TAG=$(TAG) docker-compose run sut
+	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
 
 clean:
 	docker-compose down --volume

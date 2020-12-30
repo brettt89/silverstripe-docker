@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [stretch, buster]
+        os: [stretch, buster, alpine]
         php: [7.2, 7.3, 7.4]
         framework: [3, 4]
         distro: [apache, fpm, cli]
@@ -44,6 +44,8 @@ jobs:
           - os: stretch
             php: 7.4
             framework: 4
+          - os: alpine
+            distro: apache
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -51,7 +53,7 @@ jobs:
       - name: Build Images
         env:
           TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
-          BUILD_DIR: ${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          BUILD_DIR: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
         run: docker-compose build
 
       - name: Get Composer Cache Directory
@@ -69,9 +71,11 @@ jobs:
 
       - name: Create Silverstripe ${{ matrix.framework }} test project
         env:
-          FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run create-project
+        run: |
+          docker-compose run composer config -g platform.php ${{ matrix.php }}
+          docker-compose run composer config -g platform.ext-intl 1
+          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
@@ -91,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [jessie, stretch, buster]
+        os: [jessie, stretch, buster, alpine]
         php: [5.6, 7.1]
         framework: [3, 4]
         distro: [apache, fpm, cli]
@@ -100,6 +104,8 @@ jobs:
           php: 5.6
         - php: 5.6
           framework: 4
+        - os: alpine
+          distro: apache
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -107,7 +113,7 @@ jobs:
       - name: Build Images
         env:
           TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
-          BUILD_DIR: ${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          BUILD_DIR: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
         run: docker-compose build
 
       - name: Get Composer Cache Directory
@@ -125,9 +131,11 @@ jobs:
 
       - name: Create Silverstripe ${{ matrix.framework }} test project
         env:
-          FRAMEWORK: ${{ matrix.framework }}
           COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: docker-compose run create-project
+        run: |
+          docker-compose run composer config -g platform.php ${{ matrix.php }}
+          docker-compose run composer config -g platform.ext-intl 1
+          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
