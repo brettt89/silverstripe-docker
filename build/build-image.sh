@@ -7,7 +7,7 @@ IMAGE=${IMAGE-brettt89/silverstripe-web}
 TAG=${1:-7.4-apache-buster}
 
 DOCKER_BUILD_ARGS="--build-arg TAG=${TAG}"
-BUILD_DIR="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")"
+BUILD_DIR="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")/src"
 
 declare -a TAG_ARRAY
 IFS='-' read -r -a TAG_ARRAY <<< "$TAG"
@@ -40,24 +40,24 @@ function add_file() {
     fi
 }
 
-# Remove any old file
-rm -f "${DOCKERFILE}" || true
+# # Remove any old file
+# rm -f "${DOCKERFILE}" || true
 
-if [[ "${TAG}" =~ alpine ]] ; then
-    TEMPLATE_DIR="src/alpine"
-else
-    TEMPLATE_DIR="src/debian"
-fi
+# if [[ "${TAG}" =~ alpine ]] ; then
+#     TEMPLATE_DIR="src/alpine"
+# else
+#     TEMPLATE_DIR="src/debian"
+# fi
 
-# Add base template (override existing file)
-add_file "src/Dockerfile"
+# # Add base template (override existing file)
+# add_file "src/Dockerfile"
 
-# Add PHP configurations
-add_file "${TEMPLATE_DIR}/Dockerfile.php.tpl"
+# # Add PHP configurations
+# add_file "${TEMPLATE_DIR}/Dockerfile.php.tpl"
 
-if [ "${PACKAGE}" == "apache" ] ; then
-    add_file "${TEMPLATE_DIR}/Dockerfile.apache.tpl"
-fi
+# if [ "${PACKAGE}" == "apache" ] ; then
+#     add_file "${TEMPLATE_DIR}/Dockerfile.apache.tpl"
+# fi
 
 if [ "${PHP_VERSION}" == "7.4" ] ; then
     DOCKER_BUILD_ARGS="${DOCKER_BUILD_ARGS} --build-arg GD_BUILD_ARGS="
