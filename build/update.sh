@@ -12,6 +12,7 @@ if [ ${#phpVersions[@]} -eq 0 ]; then
         '7.2'
         '7.3'
         '7.4'
+        '8.0'
     )
 fi
 phpVersions=( "${phpVersions[@]%/}" )
@@ -26,6 +27,7 @@ declare -A variantDebianDistros=(
     [7.2]='stretch buster'
     [7.3]='stretch buster'
     [7.4]='buster'
+    [8.0]='buster'
 )
 
 declare -a variantImplementation=(

@@ -34,16 +34,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [stretch, buster, alpine]
-        php: [7.2, 7.3, 7.4, 8.0]
+        php: ['7.2', '7.3', '7.4', '8.0']
         framework: [3, 4]
         distro: [apache, fpm, cli]
         exclude:
           - os: stretch
-            php: 7.4
-            framework: 3
+            php: '7.4'
           - os: stretch
-            php: 7.4
-            framework: 4
+            php: '8.0'
           - os: alpine
             distro: apache
     steps:
@@ -96,13 +94,13 @@ jobs:
     strategy:
       matrix:
         os: [jessie, stretch, buster, alpine]
-        php: [5.6, 7.1]
+        php: ['5.6', '7.1']
         framework: [3, 4]
         distro: [apache, fpm, cli]
         exclude:
         - os: buster
-          php: 5.6
-        - php: 5.6
+          php: '5.6'
+        - php: '5.6'
           framework: 4
         - os: alpine
           distro: apache
