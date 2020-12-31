@@ -42,6 +42,8 @@ jobs:
             php: '7.4'
           - os: stretch
             php: '8.0'
+          - framework: 3
+            php: '8.0'
           - os: alpine
             distro: apache
     steps:
@@ -73,7 +75,7 @@ jobs:
         run: |
           docker-compose run composer config -g platform.php ${{ matrix.php }}
           docker-compose run composer config -g platform.ext-intl 1
-          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
+          docker-compose run composer create-project --no-dev silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
