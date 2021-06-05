@@ -128,7 +128,7 @@ We provide the helper scripts [`docker-php-extension-installer`](https://hub.doc
 
 ```Dockerfile
 FROM brettt89/silverstripe-web:7.4-apache
-RUN docker-php-extension-installer xdebug
+RUN install-php-extensions xdebug
 ```
 
 ### Default extensions
