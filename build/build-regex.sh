@@ -3,7 +3,7 @@ set -euo pipefail
 
 REGEX="${1:-}"
 
-PHP_VERSION_ARRAY=("7.4" "7.3" "7.2")
+PHP_VERSION_ARRAY=("8.0" "7.4" "7.3" "7.2")
 VARIATION_ARRAY=("apache" "fpm" "cli")
 DISTRO_ARRAY=("stretch" "buster" "alpine")
 
@@ -35,8 +35,12 @@ function loop() {
     for VERSION in "${ARG_VERSION_ARRAY[@]}"; do
         for VARIATION in "${ARG_VARIATION_ARRAY[@]}"; do
             for DISTRO in "${ARG_DISTRO_ARRAY[@]}"; do
-                ## Skip building 'stretch' with PHP 7.4
+                ## Skip building 'stretch' with PHP 7.4+
                 if [ "$VERSION" == "7.4" ] && [ "$DISTRO" == "stretch" ]; then
+                    continue
+                fi
+
+                if [ "$VERSION" == "8.0" ] && [ "$DISTRO" == "stretch" ]; then
                     continue
                 fi
 
