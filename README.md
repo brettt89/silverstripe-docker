@@ -1,10 +1,36 @@
 ![Github CI](https://github.com/brettt89/silverstripe-docker/workflows/Test%20Silverstripe%20installation/badge.svg)
 
-# Supported Tags
+# Supported Tags and respective `Dockerfile` links
 
-- [`7.4-apache-buster`, `7.4-apache`, `7.4`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/Dockerfile)
-- [`7.4-fpm-buster`, `7.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/buster/Dockerfile)
+- [`8.1-apache-bullseye`, `8.1-apache`, `8.1`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/bullseye/Dockerfile)
+- [`8.1-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/Dockerfile)
+- [`8.1-fpm-bullseye`, `8.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/bullseye/Dockerfile)
+- [`8.1-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/buster/Dockerfile)
+- [`8.1-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/alpine/Dockerfile)
+- [`8.1-cli-bullseye`, `8.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/bullseye/Dockerfile)
+- [`8.1-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/buster/Dockerfile)
+- [`8.1-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/alpine/Dockerfile)
+- [`8.0-apache-bullseye`, `8.0-apache`, `8.0`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/bullseye/Dockerfile)
+- [`8.0-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/Dockerfile)
+- [`8.0-fpm-bullseye`, `8.0-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/bullseye/Dockerfile)
+- [`8.0-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/buster/Dockerfile)
+- [`8.0-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/alpine/Dockerfile)
+- [`8.0-cli-bullseye`, `8.0-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/bullseye/Dockerfile)
+- [`8.0-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/buster/Dockerfile)
+- [`8.0-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/alpine/Dockerfile)
+- [`7.4-apache-bullseye`, `7.4-apache`, `7.4`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/bullseye/Dockerfile)
+- [`7.4-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/Dockerfile)
+- [`7.4-fpm-bullseye`, `7.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/bullseye/Dockerfile)
+- [`7.4-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/buster/Dockerfile)
 - [`7.4-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/alpine/Dockerfile)
+- [`7.4-cli-bullseye`, `7.4-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/bullseye/Dockerfile)
+- [`7.4-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/buster/Dockerfile)
+- [`7.4-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/alpine/Dockerfile)
+
+# Legacy Tags and respective `Dockerfile` links
+
+Legacy Tags are PHP versions which are no longer directly supported by PHP. As these builds rely on the underlying Official Docker PHP image, these legacy versions may not always be latest builds.
+
 - [`7.3-apache-buster`, `7.3-apache`, `7.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/buster/Dockerfile)
 - [`7.3-fpm-buster`, `7.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/buster/Dockerfile)
 - [`7.3-cli-buster`, `7.3-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/buster/Dockerfile)
@@ -41,17 +67,6 @@
 - [`5.6-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/alpine/Dockerfile)
 - [`5.6-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/alpine/Dockerfile)
 
-## Depreciated Tags (still available, but not updated)
-- [`7.3-debian-buster`, `7.3-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.3/debian/buster/Dockerfile)
-- [`7.3-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.3/debian/stretch/Dockerfile)
-- [`7.2-debian-buster`, `7.2-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.2/buster/jessie/Dockerfile)
-- [`7.2-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.2/debian/stretch/Dockerfile)
-- [`7.1-debian-buster`, `7.1-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/buster/jessie/Dockerfile)
-- [`7.1-debian-stretch`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/debian/stretch/Dockerfile)
-- [`7.1-debian-jessie`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/7.1/debian/jessie/Dockerfile)
-- [`5.6-debian-stretch`, `5.6-debian`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/5.6/debian/stretch/Dockerfile)
-- [`5.6-debian-jessie`](https://github.com/brettt89/silverstripe-docker/blob/178e35a8d91f578117eaa4c9c7fc14ece35c80c3/5.6/debian/jessie/Dockerfile)
-
 # What is Silverstripe CMS
 
 Silverstripe CMS is a free and open source Content Management System (CMS) and Framework for creating and maintaining websites and web applications. It provides an out of the box web-based administration panel that enables users to make modifications to parts of the website, which includes a WYSIWYG website editor. The core of the software is Silverstripe Framework, a PHP Web application framework.
@@ -75,7 +90,7 @@ $ docker run -d \
 ### Create a Dockerfile in your PHP project
 
 ```Dockerfile
-FROM brettt89/silverstripe-web:7.4-apache
+FROM brettt89/silverstripe-web:8.1-apache
 ENV DOCUMENT_ROOT /usr/src/myapp
 
 COPY . $DOCUMENT_ROOT
@@ -88,7 +103,7 @@ WORKDIR $DOCUMENT_ROOT
 version: "3.8"
 services:
   silverstripe:
-    image: brettt89/silverstripe-web:7.4-apache
+    image: brettt89/silverstripe-web:8.1-apache
     volumes:
        - .:/var/www/html
     depends_on:

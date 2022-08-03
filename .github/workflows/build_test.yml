@@ -33,17 +33,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [stretch, buster, alpine]
-        php: [7.2, 7.3, 7.4]
+        os: [bullseye, buster, alpine]
+        php: [7.4, 8.0, 8.1]
         framework: [3, 4]
         distro: [apache, fpm, cli]
         exclude:
-          - os: stretch
-            php: 7.4
-            framework: 3
-          - os: stretch
-            php: 7.4
-            framework: 4
           - os: alpine
             distro: apache
     steps:
@@ -96,16 +90,20 @@ jobs:
     strategy:
       matrix:
         os: [jessie, stretch, buster, alpine]
-        php: [5.6, 7.1]
-        framework: [3, 4]
+        php: [5.6, 7.1, 7.2, 7.3]
+        framework: [3, 4.9]
         distro: [apache, fpm, cli]
         exclude:
         - os: buster
           php: 5.6
         - php: 5.6
-          framework: 4
+          framework: 4.9
         - os: alpine
           distro: apache
+        - os: jessie
+          php: 7.2
+        - os: jessie
+          php: 7.3
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

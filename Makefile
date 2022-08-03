@@ -51,6 +51,7 @@ create-project:
 
 test:
 	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
+	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose down
 
 clean:
 	docker-compose down --volume
