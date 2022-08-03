@@ -41,6 +41,10 @@ function loop() {
                     fi
                 fi
 
+                if [ "$VERSION" == "8.0" ] && [ "$DISTRO" == "stretch" ]; then
+                    continue
+                fi
+
                 if [ "$VERSION" == "5.6" ] && [ "$DISTRO" == "buster" ]; then
                     continue
                 fi

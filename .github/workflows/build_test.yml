@@ -69,7 +69,7 @@ jobs:
         run: |
           docker-compose run composer config -g platform.php ${{ matrix.php }}
           docker-compose run composer config -g platform.ext-intl 1
-          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
+          docker-compose run composer create-project --no-dev silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
