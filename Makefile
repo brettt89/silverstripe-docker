@@ -12,6 +12,7 @@ all:
 	@echo
 	@echo "Basic Commands"
 	@echo "  build <version>         Build Dockerfiles. Filter PHP using <version>."
+	@echo "  update                  Update Dockerfiles using build/update.sh"
 	@echo
 	@echo "Test Commands"
 	@echo "  new-test <tag>          Start a new test using <tag>, Default: 7.4-apache-buster."
