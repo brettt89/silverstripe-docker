@@ -34,12 +34,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [bullseye, buster, alpine]
-        php: [7.4, 8.0, 8.1]
+        php: ['7.4', '8.0', '8.1']
         framework: [3, 4]
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
             distro: apache
+          - php: 8.0
+            framework: 3
+          - php: 8.1
+            framework: 3
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -69,7 +73,8 @@ jobs:
         run: |
           docker-compose run composer config -g platform.php ${{ matrix.php }}
           docker-compose run composer config -g platform.ext-intl 1
-          docker-compose run composer create-project --no-dev silverstripe/installer . ^${{ matrix.framework }}
+          docker-compose run composer config -g --no-interaction allow-plugins.composer/installers true
+          docker-compose run composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
@@ -90,7 +95,7 @@ jobs:
     strategy:
       matrix:
         os: [jessie, stretch, buster, alpine]
-        php: [5.6, 7.1, 7.2, 7.3]
+        php: ['5.6', '7.1', '7.2', '7.3']
         framework: [3, 4.9]
         distro: [apache, fpm, cli]
         exclude:
@@ -133,6 +138,8 @@ jobs:
         run: |
           docker-compose run composer config -g platform.php ${{ matrix.php }}
           docker-compose run composer config -g platform.ext-intl 1
+          docker-compose run composer config -g --no-interaction allow-plugins.composer/installers true
+          docker-compose run composer config -g --no-interaction allow-plugins.silverstripe/recipe-plugin true
           docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
