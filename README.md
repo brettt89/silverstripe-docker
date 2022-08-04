@@ -10,70 +10,10 @@
 
 # Supported Tags and respective `Dockerfile` links
 
-- [`8.1-apache-bullseye`, `8.1-apache`, `8.1`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/bullseye/Dockerfile)
-- [`8.1-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/Dockerfile)
-- [`8.1-fpm-bullseye`, `8.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/bullseye/Dockerfile)
-- [`8.1-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/buster/Dockerfile)
-- [`8.1-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/alpine/Dockerfile)
-- [`8.1-cli-bullseye`, `8.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/bullseye/Dockerfile)
-- [`8.1-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/buster/Dockerfile)
-- [`8.1-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/alpine/Dockerfile)
-- [`8.0-apache-bullseye`, `8.0-apache`, `8.0`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/bullseye/Dockerfile)
-- [`8.0-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/Dockerfile)
-- [`8.0-fpm-bullseye`, `8.0-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/bullseye/Dockerfile)
-- [`8.0-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/buster/Dockerfile)
-- [`8.0-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/alpine/Dockerfile)
-- [`8.0-cli-bullseye`, `8.0-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/bullseye/Dockerfile)
-- [`8.0-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/buster/Dockerfile)
-- [`8.0-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/alpine/Dockerfile)
-- [`7.4-apache-bullseye`, `7.4-apache`, `7.4`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/bullseye/Dockerfile)
-- [`7.4-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/Dockerfile)
-- [`7.4-fpm-bullseye`, `7.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/bullseye/Dockerfile)
-- [`7.4-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/buster/Dockerfile)
-- [`7.4-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/alpine/Dockerfile)
-- [`7.4-cli-bullseye`, `7.4-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/bullseye/Dockerfile)
-- [`7.4-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/buster/Dockerfile)
-- [`7.4-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/alpine/Dockerfile)
+Note: the description for this image is longer than the Hub length limit of 25000, so the "Supported tags" list has been trimmed to compensate. See docker/hub-beta-feedback#238 for more information.
 
-# Legacy Tags and respective `Dockerfile` links
+ - See ["Supported Tags and respective `Dockerfile` links" at https://github.com/brettt89/silverstripe-docker/blob/master/README.md](https://github.com/brettt89/silverstripe-docker/blob/master/README.md#supported-tags-and-respective-dockerfile-links)
 
-Legacy Tags are PHP versions which are no longer directly supported by PHP. As the underlying PHP images are no longer updated, new builds for these legacy tags will not be released.
-
-- [`7.3-apache-buster`, `7.3-apache`, `7.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/buster/Dockerfile)
-- [`7.3-fpm-buster`, `7.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/buster/Dockerfile)
-- [`7.3-cli-buster`, `7.3-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/buster/Dockerfile)
-- [`7.3-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/stretch/Dockerfile)
-- [`7.3-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/stretch/Dockerfile)
-- [`7.3-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/stretch/Dockerfile)
-- [`7.3-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/alpine/Dockerfile)
-- [`7.3-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/alpine/Dockerfile)
-- [`7.2-apache-buster`, `7.2-apache`, `7.2`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/apache/buster/Dockerfile)
-- [`7.2-fpm-buster`, `7.2-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/buster/Dockerfile)
-- [`7.2-cli-buster`, `7.2-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/buster/Dockerfile)
-- [`7.2-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/apache/stretch/Dockerfile)
-- [`7.2-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/stretch/Dockerfile)
-- [`7.2-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/stretch/Dockerfile)
-- [`7.2-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/alpine/Dockerfile)
-- [`7.2-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/alpine/Dockerfile)
-- [`7.1-apache-buster`, `7.1-apache`, `7.1`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/buster/Dockerfile)
-- [`7.1-fpm-buster`, `7.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/buster/Dockerfile)
-- [`7.1-cli-buster`, `7.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/buster/Dockerfile)
-- [`7.1-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/stretch/Dockerfile)
-- [`7.1-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/stretch/Dockerfile)
-- [`7.1-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/stretch/Dockerfile)
-- [`7.1-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/jessie/Dockerfile)
-- [`7.1-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/jessie/Dockerfile)
-- [`7.1-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/jessie/Dockerfile)
-- [`7.1-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/alpine/Dockerfile)
-- [`7.1-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/alpine/Dockerfile)
-- [`5.6-apache-stretch`, `5.6-apache`, `5.6`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/apache/stretch/Dockerfile)
-- [`5.6-fpm-stretch`, `5.6-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/stretch/Dockerfile)
-- [`5.6-cli-stretch`, `5.6-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/stretch/Dockerfile)
-- [`5.6-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/apache/jessie/Dockerfile)
-- [`5.6-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/jessie/Dockerfile)
-- [`5.6-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/jessie/Dockerfile)
-- [`5.6-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/alpine/Dockerfile)
-- [`5.6-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/alpine/Dockerfile)
 
 # What is Silverstripe CMS
 
@@ -150,7 +90,7 @@ Many extensions are already compiled into the image, so it's worth checking the 
 We provide the helper scripts [`docker-php-extension-installer`](https://hub.docker.com/r/mlocati/php-extension-installer) to more easily install PHP extensions.
 
 ```Dockerfile
-FROM brettt89/silverstripe-web:7.4-apache
+FROM brettt89/silverstripe-web:8.1-apache
 RUN install-php-extensions xdebug
 ```
 
@@ -174,13 +114,21 @@ The following extensions are installed by default on top of the default PHP imag
 
 # Image Variants
 
-The php images come in many flavors, each designed for a specific use case.
+The `php` images come in many flavors, each designed for a specific use case.
 
-Some of these tags may have names like `buster` or `stretch` in them. These are the suite code names for releases of Debian and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you'll likely want to specify one of these explicitly to minimize breakage when there are new releases of Debian.
+Some of these tags may have names like `bullseye` or `buster` in them. These are the suite code names for releases of [Debian](https://wiki.debian.org/DebianReleases) and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you'll likely want to specify one of these explicitly to minimize breakage when there are new releases of Debian.
 
 ## `brettt89/silverstripe-web:<version>-apache`
 
 This image contains Debian's Apache httpd in conjunction with PHP (as mod_php) and uses mpm_prefork by default. See Basic Usage for examples on how to use.
+
+## `brettt89/silverstripe-web:<version>-cli`
+
+This variant contains the [PHP CLI](https://secure.php.net/manual/en/features.commandline.php) tool with default mods. If you need a web server, this is probably not the image you are looking for. It is designed to be used both as a throw away container (mount your source code and start the container to start your app), as well as a base from which to build other images.
+
+It also is the only variant which contains the (not recommended) `php-cgi` binary, which is likely necessary for some things like [PPM](https://github.com/php-pm/php-pm).
+
+Note that *all* variants of `php` contain the PHP CLI (`/usr/local/bin/php`).
 
 ## `brettt89/silverstripe-web:<version>-fpm`
 
@@ -195,6 +143,14 @@ Some potentially helpful resources:
 - [very detailed article by Pascal Landau](https://www.pascallandau.com/blog/php-php-fpm-and-nginx-on-docker-in-windows-10/)
 - [Stack Overflow discussion](https://stackoverflow.com/q/29905953/433558)
 - [Apache httpd Wiki example](https://wiki.apache.org/httpd/PHPFPMWordpress)
+
+## `brettt89/silverstripe-web:<version>-alpine`
+
+This image is based on the popular [Alpine Linux project](https://alpinelinux.org), available in [the `alpine` official image](https://hub.docker.com/_/alpine). Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
+
+This variant is useful when final image size being as small as possible is your primary concern. The main caveat to note is that it does use [musl libc](https://musl.libc.org) instead of [glibc and friends](https://www.etalabs.net/compare_libcs.html), so software will often run into issues depending on the depth of their libc requirements/assumptions. See [this Hacker News comment thread](https://news.ycombinator.com/item?id=10782897) for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
+
+To minimize image size, it's uncommon for additional related tools (such as `git` or `bash`) to be included in Alpine-based images. Using this image as a base, add the things you need in your own Dockerfile (see the [`alpine` image description](https://hub.docker.com/_/alpine/) for examples of how to install packages if you are unfamiliar).
 
 # License
 
