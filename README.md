@@ -1,5 +1,13 @@
 ![Github CI](https://github.com/brettt89/silverstripe-docker/workflows/Test%20Silverstripe%20installation/badge.svg)
 
+# Quick reference
+
+-	**Where to file issues**:  
+	[https://github.com/brettt89/silverstripe-docker/issues](https://github.com/brettt89/silverstripe-docker/issues)
+
+-	**Supported architectures**: ([more info](https://github.com/docker-library/official-images#architectures-other-than-amd64))  
+	`amd64`, `arm32v6`, `arm32v7`, `arm64v8`, `i386`, `mips64le`, `ppc64le`, `s390x`
+
 # Supported Tags and respective `Dockerfile` links
 
 - [`8.1-apache-bullseye`, `8.1-apache`, `8.1`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/bullseye/Dockerfile)
