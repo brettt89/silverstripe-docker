@@ -12,6 +12,7 @@ all:
 	@echo
 	@echo "Basic Commands"
 	@echo "  build <version>         Build Dockerfiles. Filter PHP using <version>."
+	@echo "  update                  Update Dockerfiles using build/update.sh"
 	@echo
 	@echo "Test Commands"
 	@echo "  new-test <tag>          Start a new test using <tag>, Default: 7.4-apache-buster."
@@ -50,6 +51,7 @@ create-project:
 
 test:
 	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
+	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose down
 
 clean:
 	docker-compose down --volume

@@ -7,12 +7,9 @@ buildDir="$currentDir/../src"
 phpVersions=( "$@" )
 if [ ${#phpVersions[@]} -eq 0 ]; then
 	phpVersions=(
-        '5.6'
-        '7.1'
-        '7.2'
-        '7.3'
         '7.4'
         '8.0'
+        '8.1'
     )
 fi
 phpVersions=( "${phpVersions[@]%/}" )
@@ -22,12 +19,9 @@ declare -A variantExtras=(
 )
 
 declare -A variantDebianDistros=(
-	[5.6]='jessie stretch'
-    [7.1]='jessie stretch buster'
-    [7.2]='stretch buster'
-    [7.3]='stretch buster'
-    [7.4]='buster'
-    [8.0]='buster'
+    [7.4]='buster bullseye'
+    [8.0]='buster bullseye'
+    [8.1]='buster bullseye'
 )
 
 declare -a variantImplementation=(
@@ -65,22 +59,6 @@ build_dockerfile() {
         -e 's!%%DISTRO%%!'"$distro"'!g' \
         -e 's!%%VARIANT_EXTRAS%%!'"$(sed_escape_rhs "$extras")"'!g' \
         "$currentDir/Dockerfile.template" > "$dir/Dockerfile"
-
-    case "$phpVersion" in
-        7.2 )
-            sed -ri \
-                -e '/libzip-dev/d' \
-                "$dir/Dockerfile"
-            ;;
-    esac
-
-    case "$phpVersion" in
-        7.2 | 7.3 )
-            sed -ri \
-                -e 's!gd --with-freetype --with-jpeg!gd --with-freetype-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr!g' \
-                "$dir/Dockerfile"
-            ;;
-    esac
 }
 
 for phpVersion in "${phpVersions[@]}"; do

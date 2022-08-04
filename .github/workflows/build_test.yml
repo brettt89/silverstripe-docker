@@ -33,22 +33,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [stretch, buster, alpine]
-        php: ['7.2', '7.3', '7.4', '8.0']
+        os: [bullseye, buster, alpine]
+        php: ['7.4', '8.0', '8.1']
         framework: [3, 4]
         distro: [apache, fpm, cli]
         exclude:
-          - os: stretch
-            php: '7.4'
-          - os: stretch
-            php: '8.0'
-          - framework: 3
-            php: '8.0'
           - os: alpine
             distro: apache
-          # PHP 8 is Experimental, tests are failing due to phpunit 5,x support.
-          # TODO: Once phpunit issues are resolved, re-enable php 8 tests
-          - php: '8.0'
+          - php: 8.0
+            framework: 3
+          - php: 8.1
+            framework: 3
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -78,67 +73,8 @@ jobs:
         run: |
           docker-compose run composer config -g platform.php ${{ matrix.php }}
           docker-compose run composer config -g platform.ext-intl 1
-          docker-compose run composer create-project --no-dev silverstripe/installer . ^${{ matrix.framework }}
-
-      - name: Run tests
-        env:
-          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
-        run: docker-compose run sut
-
-      - name: The job has failed
-        if: ${{ failure() }}
-        run: |
-          docker-compose logs
-
-  # Legacy PHP 5.6 and 7.1 tests
-  build_legacy:
-    # Job name is Greeting
-    name: Legacy Build & Test
-    # This job runs on Linux
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [jessie, stretch, buster, alpine]
-        php: ['5.6', '7.1']
-        framework: [3, 4]
-        distro: [apache, fpm, cli]
-        exclude:
-        - os: buster
-          php: '5.6'
-        - php: '5.6'
-          framework: 4
-        - os: alpine
-          distro: apache
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Build Images
-        env:
-          TAG: ${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
-          BUILD_DIR: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
-        run: docker-compose build
-
-      - name: Get Composer Cache Directory
-        id: composer-data
-        run: |
-          echo "::set-output name=dir::$(composer config --global data-dir)"
-
-      - name: Cache Composer Downloads
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-data.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.framework }}-${{ matrix.php }}
-          restore-keys: |
-            ${{ runner.os }}-composer-${{ matrix.framework }}-
-
-      - name: Create Silverstripe ${{ matrix.framework }} test project
-        env:
-          COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
-        run: |
-          docker-compose run composer config -g platform.php ${{ matrix.php }}
-          docker-compose run composer config -g platform.ext-intl 1
-          docker-compose run composer create-project silverstripe/installer . ^${{ matrix.framework }}
+          docker-compose run composer config -g --no-interaction allow-plugins.composer/installers true
+          docker-compose run composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ matrix.framework }}
 
       - name: Run tests
         env:
