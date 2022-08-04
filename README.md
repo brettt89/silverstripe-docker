@@ -29,7 +29,7 @@
 
 # Legacy Tags and respective `Dockerfile` links
 
-Legacy Tags are PHP versions which are no longer directly supported by PHP. As these builds rely on the underlying Official Docker PHP image, these legacy versions may not always be latest builds.
+Legacy Tags are PHP versions which are no longer directly supported by PHP. As the underlying PHP images are no longer updated, new builds for these legacy tags will not be released.
 
 - [`7.3-apache-buster`, `7.3-apache`, `7.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/buster/Dockerfile)
 - [`7.3-fpm-buster`, `7.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/buster/Dockerfile)
@@ -84,7 +84,7 @@ Running the `brettt89/silverstripe-web` image with Apache is as simple as
 ```shell
 $ docker run -d \
   --volume $PWD:/app \
-  brettt89/silverstripe-web:7.4-apache
+  brettt89/silverstripe-web:8.1-apache
 ```
 
 ### Create a Dockerfile in your PHP project

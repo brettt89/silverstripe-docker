@@ -4,7 +4,7 @@ set -euo pipefail
 OUTPUT=${OUTPUT:-/dev/stdout}
 
 IMAGE=${IMAGE-brettt89/silverstripe-web}
-TAG=${1:-7.4-apache-buster}
+TAG=${1:-8.1-apache-bullseye}
 
 DOCKER_BUILD_ARGS="--build-arg TAG=${TAG}"
 BUILD_DIR="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")/src"
