@@ -1,29 +1,9 @@
 name: Test Silverstripe installation
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    paths-ignore:
-      - 'README.md'
-      - 'docs/'
-      - 'LICENCE'
-      - 'Makefile'
-    branches:
-      - master
   pull_request:
-    paths-ignore:
-      - 'README.md'
-      - 'docs/'
-      - 'LICENCE'
-      - 'Makefile'
-    branches:
-      - master
-      - release/**
-  # Also trigger on page_build, as well as release created events
-  page_build:
-  release:
-    types: # This configuration does not affect the page_build event above
-      - created
+    paths:
+      - 'src/**'
+      # - 'tests/**'
 jobs:
   build:
     # Job name is Greeting
