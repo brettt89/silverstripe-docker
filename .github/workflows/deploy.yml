@@ -1,11 +1,5 @@
 name: Release
 on:
-  pull_request:
-    # Pattern matched against changes to src/, test/ and .github/
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - '.github/**'
   push:
     # Pattern matched against refs/tags
     tags:        
@@ -49,17 +43,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Populate Default Tag
-        run: |
-          echo "docker_tags=brettt89/silverstripe-web:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}" >> $GITHUB_ENV
-      
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
-          load: true
-          tags: ${{ env.docker_tags }}
-
       - id: test
         uses: ./.github/actions/build-test
         with:
@@ -67,6 +50,10 @@ jobs:
           distro: ${{ matrix.distro }}
           os: ${{ matrix.os }}
           framework: 4
+
+      - name: Populate Default Tag
+        run: |
+          echo "docker_tags=brettt89/silverstripe-web:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}" >> $GITHUB_ENV
 
       - if: ${{ matrix.additional_distro }}
         name: Populate Additional Distro Tag
@@ -87,9 +74,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
-          platforms: linux/amd64
-          load: true
+          platforms: linux/amd64,linux/arm64
+          push: true
           tags: ${{ env.docker_tags }}
-
-      - name: Check Docker Tags
-        run: docker images
