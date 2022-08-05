@@ -6,74 +6,13 @@
 	[https://github.com/brettt89/silverstripe-docker/issues](https://github.com/brettt89/silverstripe-docker/issues)
 
 -	**Supported architectures**: ([more info](https://github.com/docker-library/official-images#architectures-other-than-amd64))  
-	`amd64`, `arm32v6`, `arm32v7`, `arm64v8`, `i386`, `mips64le`, `ppc64le`, `s390x`
+	`amd64`, `arm64v8`
 
 # Supported Tags and respective `Dockerfile` links
 
-- [`8.1-apache-bullseye`, `8.1-apache`, `8.1`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/bullseye/Dockerfile)
-- [`8.1-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/apache/Dockerfile)
-- [`8.1-fpm-bullseye`, `8.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/bullseye/Dockerfile)
-- [`8.1-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/buster/Dockerfile)
-- [`8.1-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/fpm/alpine/Dockerfile)
-- [`8.1-cli-bullseye`, `8.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/bullseye/Dockerfile)
-- [`8.1-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/buster/Dockerfile)
-- [`8.1-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.1/cli/alpine/Dockerfile)
-- [`8.0-apache-bullseye`, `8.0-apache`, `8.0`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/bullseye/Dockerfile)
-- [`8.0-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/apache/Dockerfile)
-- [`8.0-fpm-bullseye`, `8.0-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/bullseye/Dockerfile)
-- [`8.0-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/buster/Dockerfile)
-- [`8.0-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/fpm/alpine/Dockerfile)
-- [`8.0-cli-bullseye`, `8.0-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/bullseye/Dockerfile)
-- [`8.0-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/buster/Dockerfile)
-- [`8.0-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.0/cli/alpine/Dockerfile)
-- [`7.4-apache-bullseye`, `7.4-apache`, `7.4`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/bullseye/Dockerfile)
-- [`7.4-apache-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/apache/Dockerfile)
-- [`7.4-fpm-bullseye`, `7.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/bullseye/Dockerfile)
-- [`7.4-fpm-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/buster/Dockerfile)
-- [`7.4-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/fpm/alpine/Dockerfile)
-- [`7.4-cli-bullseye`, `7.4-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/bullseye/Dockerfile)
-- [`7.4-cli-buster`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/buster/Dockerfile)
-- [`7.4-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.4/cli/alpine/Dockerfile)
+Note: the description for this image is longer than the Hub length limit of 25000, so the "Supported tags" list has been trimmed to compensate. See docker/hub-beta-feedback#238 for more information.
 
-# Legacy Tags and respective `Dockerfile` links
-
-Legacy Tags are PHP versions which are no longer directly supported by PHP. As the underlying PHP images are no longer updated, new builds for these legacy tags will not be released.
-
-- [`7.3-apache-buster`, `7.3-apache`, `7.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/buster/Dockerfile)
-- [`7.3-fpm-buster`, `7.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/buster/Dockerfile)
-- [`7.3-cli-buster`, `7.3-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/buster/Dockerfile)
-- [`7.3-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/apache/stretch/Dockerfile)
-- [`7.3-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/stretch/Dockerfile)
-- [`7.3-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/stretch/Dockerfile)
-- [`7.3-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/fpm/alpine/Dockerfile)
-- [`7.3-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.3/cli/alpine/Dockerfile)
-- [`7.2-apache-buster`, `7.2-apache`, `7.2`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/apache/buster/Dockerfile)
-- [`7.2-fpm-buster`, `7.2-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/buster/Dockerfile)
-- [`7.2-cli-buster`, `7.2-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/buster/Dockerfile)
-- [`7.2-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/apache/stretch/Dockerfile)
-- [`7.2-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/stretch/Dockerfile)
-- [`7.2-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/stretch/Dockerfile)
-- [`7.2-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/fpm/alpine/Dockerfile)
-- [`7.2-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.2/cli/alpine/Dockerfile)
-- [`7.1-apache-buster`, `7.1-apache`, `7.1`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/buster/Dockerfile)
-- [`7.1-fpm-buster`, `7.1-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/buster/Dockerfile)
-- [`7.1-cli-buster`, `7.1-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/buster/Dockerfile)
-- [`7.1-apache-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/stretch/Dockerfile)
-- [`7.1-fpm-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/stretch/Dockerfile)
-- [`7.1-cli-stretch`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/stretch/Dockerfile)
-- [`7.1-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/apache/jessie/Dockerfile)
-- [`7.1-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/jessie/Dockerfile)
-- [`7.1-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/jessie/Dockerfile)
-- [`7.1-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/fpm/alpine/Dockerfile)
-- [`7.1-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/7.1/cli/alpine/Dockerfile)
-- [`5.6-apache-stretch`, `5.6-apache`, `5.6`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/apache/stretch/Dockerfile)
-- [`5.6-fpm-stretch`, `5.6-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/stretch/Dockerfile)
-- [`5.6-cli-stretch`, `5.6-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/stretch/Dockerfile)
-- [`5.6-apache-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/apache/jessie/Dockerfile)
-- [`5.6-fpm-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/jessie/Dockerfile)
-- [`5.6-cli-jessie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/jessie/Dockerfile)
-- [`5.6-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/fpm/alpine/Dockerfile)
-- [`5.6-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/5.6/cli/alpine/Dockerfile)
+ - See ["Supported Tags and respective `Dockerfile` links" at https://github.com/brettt89/silverstripe-docker/blob/master/README.md](https://github.com/brettt89/silverstripe-docker/blob/master/README.md#supported-tags-and-respective-dockerfile-links)
 
 
 # What is Silverstripe CMS
