@@ -6,6 +6,9 @@ on:
       - 'src/**'
       - 'tests/**'
       - '.github/**'
+  push:
+    branches:
+      - master
 jobs:
   test:
     # This job runs on Linux

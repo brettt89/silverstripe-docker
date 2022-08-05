@@ -1,4 +1,4 @@
-![Github CI](https://github.com/brettt89/silverstripe-docker/workflows/Test%20Silverstripe%20installation/badge.svg)
+![GitHub CI](https://github.com/brettt89/silverstripe-docker/workflows/GitHub%20CI/badge.svg?branch=master)
 
 # Quick reference
 
