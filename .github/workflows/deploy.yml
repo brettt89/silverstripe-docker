@@ -1,5 +1,11 @@
 name: Release
 on:
+  pull_request:
+    # Pattern matched against changes to src/, test/ and .github/
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/**'
   push:
     # Pattern matched against refs/tags
     tags:        
@@ -31,14 +37,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - id: test
-        uses: ./.github/actions/build-test
-        with:
-          php: ${{ matrix.php }}
-          distro: ${{ matrix.distro }}
-          os: ${{ matrix.os }}
-          framework: 4
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -54,6 +52,21 @@ jobs:
       - name: Populate Default Tag
         run: |
           echo "docker_tags=brettt89/silverstripe-web:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}" >> $GITHUB_ENV
+      
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          load: true
+          tags: ${{ env.docker_tags }}
+
+      - id: test
+        uses: ./.github/actions/build-test
+        with:
+          php: ${{ matrix.php }}
+          distro: ${{ matrix.distro }}
+          os: ${{ matrix.os }}
+          framework: 4
 
       - if: ${{ matrix.additional_distro }}
         name: Populate Additional Distro Tag
@@ -74,6 +87,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
-          platforms: linux/amd64,linux/arm64
-          push: true
+          platforms: linux/amd64
+          load: true
           tags: ${{ env.docker_tags }}
+
+      - name: Check Docker Tags
+        run: docker images

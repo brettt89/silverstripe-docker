@@ -18,8 +18,6 @@ services:
     build: 
       context: ${BUILD_DIR:-src/7.4/apache/buster}
       dockerfile: Dockerfile
-      args:
-         TAG: ${TAG:-7.4-apache-buster}
     image: ${IMAGE:-brettt89/silverstripe-web}:${TAG:-7.4-apache-buster}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
