@@ -65,7 +65,7 @@ fi
 
 echo "Building image: '${IMAGE}:${TAG}'"
 cat "${DOCKERFILE}" > "${OUTPUT}"
-docker buildx build --platform linux/amd64,linux/arm64 -t "${IMAGE}:${TAG}" ${DOCKER_BUILD_ARGS} "${BUILD_DIR%/}" > ${OUTPUT}
+docker build -t "${IMAGE}:${TAG}" ${DOCKER_BUILD_ARGS} "${BUILD_DIR%/}" > "${OUTPUT}"
 
 # If we got this far, then all good. remove log.
-rm -f ${OUTPUT} || true
+rm -f "${OUTPUT}" || true
