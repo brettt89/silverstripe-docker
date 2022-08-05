@@ -1,4 +1,4 @@
-name: Deploy Release
+name: Release
 on:
   push:
     # Pattern matched against refs/tags

@@ -1,4 +1,4 @@
-name: Development Test
+name: GitHub CI
 on:
   pull_request:
     # Pattern matched against changes to src/, test/ and .github/
