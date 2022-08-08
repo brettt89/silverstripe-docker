@@ -1,0 +1,40 @@
+name: GitHub CI
+on:
+  pull_request:
+    # Pattern matched against changes to src/, test/ and .github/
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - '.github/**'
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [bullseye, buster, alpine]
+        php: ['7.4', '8.0', '8.1']
+        framework: [3, 4]
+        distro: [apache, fpm, cli]
+        exclude:
+          - os: alpine
+            distro: apache
+          - php: 8.0
+            framework: 3
+          - php: 8.1
+            framework: 3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: test
+        uses: ./.github/actions/build-test
+        with:
+          php: ${{ matrix.php }}
+          distro: ${{ matrix.distro }}
+          os: ${{ matrix.os }}
+          framework: ${{ matrix.framework }}

@@ -68,4 +68,4 @@ cat "${DOCKERFILE}" > "${OUTPUT}"
 docker build -t "${IMAGE}:${TAG}" ${DOCKER_BUILD_ARGS} "${BUILD_DIR%/}" > "${OUTPUT}"
 
 # If we got this far, then all good. remove log.
-rm -f build.log || true
+rm -f "${OUTPUT}" || true

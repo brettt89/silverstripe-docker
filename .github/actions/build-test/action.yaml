@@ -1,0 +1,61 @@
+name: Build & Test
+description: "Builds and tests the docker images"
+inputs:
+  php:
+    required: true
+    description: "PHP Version"
+  distro:
+    required: true
+    description: "PHP Distribution (e.g. apache, fpm, cli)"
+  os:
+    required: true
+    description: "Debian Operating System Distribution"
+  framework:
+    required: true
+    description: "Silverstripe CMS Recipe Version"
+runs:
+  using: "composite"
+  steps:
+    - name: Build Images
+      env:
+        TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
+        BUILD_DIR: src/${{ inputs.php }}/${{ inputs.distro }}/${{ inputs.os }}
+      run: docker-compose build
+      shell: bash
+
+    - name: Get Composer Cache Directory
+      id: composer-data
+      run: |
+        echo "::set-output name=dir::$(composer config --global data-dir)"
+      shell: bash
+
+    - name: Cache Composer Downloads
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.composer-data.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ inputs.framework }}-${{ inputs.php }}
+        restore-keys: |
+          ${{ runner.os }}-composer-${{ inputs.framework }}
+
+    - name: Create Silverstripe ${{ inputs.framework }} test project
+      env:
+        COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
+      run: |
+        docker-compose run composer config -g platform.php ${{ inputs.php }}
+        docker-compose run composer config -g platform.ext-intl 1
+        docker-compose run composer config -g --no-interaction allow-plugins.composer/installers true
+        docker-compose run composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ inputs.framework }}
+      shell: bash
+
+    - name: Run tests
+      env:
+        TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
+      run: docker-compose run sut
+      shell: bash
+
+    - name: The job has failed
+      if: ${{ failure() }}
+      run: |
+        docker-compose logs
+      shell: bash
+  

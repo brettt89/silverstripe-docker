@@ -1,0 +1,79 @@
+name: Release
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:        
+      - '*'           # Push events to every tag not containing /
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [bullseye, buster, alpine]
+        php: ['7.4', '8.0', '8.1']
+        distro: [apache, fpm, cli]
+        exclude:
+          - os: alpine
+            distro: apache
+        include:
+          - os: bullseye
+            additional_distro: true
+          - os: bullseye
+            distro: apache
+            additional_php: true
+          - os: bullseye
+            php: 8.1
+            distro: apache
+            latest: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - id: test
+        uses: ./.github/actions/build-test
+        with:
+          php: ${{ matrix.php }}
+          distro: ${{ matrix.distro }}
+          os: ${{ matrix.os }}
+          framework: 4
+
+      - name: Populate Default Tag
+        run: |
+          echo "docker_tags=brettt89/silverstripe-web:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}" >> $GITHUB_ENV
+
+      - if: ${{ matrix.additional_distro }}
+        name: Populate Additional Distro Tag
+        run: |
+          echo "docker_tags=${{ env.docker_tags }},brettt89/silverstripe-web:${{ matrix.php }}-${{ matrix.distro }}" >> $GITHUB_ENV
+
+      - if: ${{ matrix.additional_php }}
+        name: Populate Additional PHP Tag
+        run: |
+          echo "docker_tags=${{ env.docker_tags }},brettt89/silverstripe-web:${{ matrix.php }}" >> $GITHUB_ENV
+
+      - if: ${{ matrix.latest }}
+        name: Populate Latest Tag
+        run: |
+          echo "docker_tags=${{ env.docker_tags }},brettt89/silverstripe-web:latest" >> $GITHUB_ENV
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.docker_tags }}
