@@ -1,5 +1,8 @@
 name: Release
 on:
+  # Run on scheduled every Monday at 2.00am
+  schedule:
+    - '0 2 * * 1'
   push:
     # Pattern matched against refs/tags
     tags:        
