@@ -17,16 +17,19 @@ jobs:
       fail-fast: false
       matrix:
         os: [bullseye, buster, alpine]
-        php: ['7.4', '8.0', '8.1']
-        framework: [3, 4]
+        php: ['8.0', '8.1', '8.2']
+        framework: [4, 5@dev]
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
             distro: apache
           - php: 8.0
-            framework: 3
+            framework: 5@dev
+          # Once PHP 5 has been released, these need to be updated to 5
           - php: 8.1
-            framework: 3
+            framework: 5@dev
+          - php: 8.2
+            framework: 4
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

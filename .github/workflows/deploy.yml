@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [bullseye, buster, alpine]
-        php: ['7.4', '8.0', '8.1']
+        php: ['8.0', '8.1', '8.2']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine

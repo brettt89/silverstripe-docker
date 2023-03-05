@@ -1,4 +1,4 @@
-FROM php:7.4-cli-alpine
+FROM php:8.2-fpm-bullseye
 MAINTAINER Brett Tasker '<brett@silverstripe.com>'
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions

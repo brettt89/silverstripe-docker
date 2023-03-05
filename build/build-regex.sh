@@ -3,7 +3,7 @@ set -euo pipefail
 
 REGEX="${1:-}"
 
-PHP_VERSION_ARRAY=("8.1" "8.0" "7.4")
+PHP_VERSION_ARRAY=("8.2" "8.1" "8.0")
 VARIATION_ARRAY=("apache" "fpm" "cli")
 DISTRO_ARRAY=("buster" "bullseye" "alpine")
 

@@ -1,6 +1,6 @@
 export LOG_LEVEL := $(findstring s,$(word 1, $(MAKEFLAGS)))
 ARG = $(filter-out $@,$(MAKECMDGOALS))
-TAG = $(if $(filter %,$(ARG)),$(ARG),7.4-apache-buster)
+TAG = $(if $(filter %,$(ARG)),$(ARG),8.2-apache-buster)
 
 ifndef FRAMEWORK
 FRAMEWORK = 4
@@ -15,7 +15,7 @@ all:
 	@echo "  update                  Update Dockerfiles using build/update.sh"
 	@echo
 	@echo "Test Commands"
-	@echo "  new-test <tag>          Start a new test using <tag>, Default: 7.4-apache-buster."
+	@echo "  new-test <tag>          Start a new test using <tag>, Default: 8.2-apache-buster."
 	@echo "  test <tag>              Execute tests, assumes project has been build."
 	@echo "  clean                   Delete all test data." 
 	@echo
@@ -23,8 +23,8 @@ all:
 	@echo "  create-project <tag>    Create new Silverstripe Project".
 	@echo
 	@echo "Parameters"
-	@echo "  <version>               PHP version. Format '<major>.<minor>'. e.g. '7.4'"
-	@echo "  <tag>                   Tag to build/test. e.g. '5.6-apache-jessie'"
+	@echo "  <version>               PHP version. Format '<major>.<minor>'. e.g. '8.2'"
+	@echo "  <tag>                   Tag to build/test. e.g. '8.2-apache-jessie'"
 
 update:
 	./build/update.sh $(ARG)

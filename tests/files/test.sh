@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REQUEST_URI="/dev/build"
-TAG=${TAG:-7.4-apache-buster}
+TAG=${TAG:-8.2-apache-buster}
 
 # Options
 
