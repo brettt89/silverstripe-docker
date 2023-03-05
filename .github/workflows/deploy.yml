@@ -1,8 +1,8 @@
 name: Release
 on:
-  # Run on scheduled every Monday at 2.00am
   schedule:
-    - '0 2 * * 1'
+    # Run on scheduled every Monday at 2.00am
+    - cron: '0 2 * * 1'
   push:
     # Pattern matched against refs/tags
     tags:        
@@ -32,7 +32,7 @@ jobs:
             latest: true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

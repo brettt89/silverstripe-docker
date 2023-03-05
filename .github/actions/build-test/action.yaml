@@ -26,11 +26,11 @@ runs:
     - name: Get Composer Cache Directory
       id: composer-data
       run: |
-        echo "::set-output name=dir::$(composer config --global data-dir)"
+        echo "dir=$(composer config --global data-dir)" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache Composer Downloads
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-data.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ inputs.framework }}-${{ inputs.php }}
