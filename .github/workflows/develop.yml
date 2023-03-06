@@ -30,6 +30,16 @@ jobs:
             framework: 5@dev
           - php: 8.2
             framework: 4
+        include:
+          - os: bullseye
+            additional_distro: true
+          - os: bullseye
+            distro: apache
+            additional_php: true
+          - os: bullseye
+            php: 8.1
+            distro: apache
+            latest: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -39,12 +49,14 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            name/app
+            brettt89/silverstripe-web
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+            type=raw,value=${{ matrix.php }}-${{ matrix.distro }},enable=${{ matrix.additional_distro || false }}
+            type=raw,value=${{ matrix.php }},enable=${{ matrix.additional_php || false }}
+            type=raw,value=latest,enable=${{ matrix.latest || false }}
+            type=semver,pattern=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-{{version}}
+            type=semver,pattern=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-{{major}}.{{minor}}
 
       - id: test
         uses: ./.github/actions/build-test
