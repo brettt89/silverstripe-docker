@@ -1,5 +1,8 @@
 name: Release
 on:
+  schedule:
+    # Run on scheduled every Monday at 2.00am
+    - cron: '0 2 * * 1'
   push:
     # Pattern matched against refs/tags
     tags:        
@@ -89,7 +92,6 @@ jobs:
           os: ${{ matrix.os }}
       
       - name: Build and push
-        if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@v4
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
