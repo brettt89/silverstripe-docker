@@ -1,6 +1,10 @@
 name: Build & Test
 description: "Builds and tests the docker images"
 inputs:
+  platform:
+    required: false
+    description: "defines the target platform containers for this service will run on, using the os[/arch[/variant]] syntax"
+    default: 'linux/amd64'
   image:
     required: true
     description: "Image and version (e.g. my/app:8.0-apache)"
@@ -59,6 +63,7 @@ runs:
       env:
         IMAGE_TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
         IMAGE: ${{ inputs.image }}
+        PLATFORM: ${{ inputs.platform }}
         DOCKER_BUILDKIT: 1
         COMPOSE_DOCKER_CLI_BUILD: 1
       run: docker-compose run sut
