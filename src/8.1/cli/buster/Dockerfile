@@ -1,5 +1,8 @@
 FROM php:8.1-cli-buster
-MAINTAINER Brett Tasker '<brett@silverstripe.com>'
+LABEL org.opencontainers.image.description="PHP Extended cli image for Silverstripe applications"
+LABEL org.opencontainers.image.authors="Brett Tasker '<brett@silverstripe.com>'"
+LABEL org.opencontainers.image.url="https://github.com/brettt89/silverstripe-docker"
+LABEL org.opencontainers.image.licenses='MIT'
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
 

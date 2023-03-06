@@ -3,14 +3,13 @@ set -euo pipefail
 
 OUTPUT=${OUTPUT:-/dev/stdout}
 
-IMAGE=${IMAGE-brettt89/silverstripe-web}
-TAG=${1:-8.2-apache-bullseye}
+IMAGE_TAG=${IMAGE_TAG:-8.2-apache-bullseye}
+IMAGE=${IMAGE:-brettt89/silverstripe-web:${IMAGE_TAG}}
 
-DOCKER_BUILD_ARGS="--build-arg TAG=${TAG}"
 BUILD_DIR="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")/src"
 
 declare -a TAG_ARRAY
-IFS='-' read -r -a TAG_ARRAY <<< "$TAG"
+IFS='-' read -r -a TAG_ARRAY <<< "$IMAGE_TAG"
 
 PHP_VERSION="${TAG_ARRAY[0]:-}"
 PACKAGE="${TAG_ARRAY[1]:-}"
@@ -40,9 +39,15 @@ function add_file() {
     fi
 }
 
-echo "Building image: '${IMAGE}:${TAG}'"
+echo "Building image: '${IMAGE}'"
 cat "${DOCKERFILE}" > "${OUTPUT}"
-docker build -t "${IMAGE}:${TAG}" ${DOCKER_BUILD_ARGS} "${BUILD_DIR%/}" > "${OUTPUT}"
+docker build -t "${IMAGE}" \
+    --label org.opencontainers.image.revision=${COMMIT} \
+    --label org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)" \
+    --label org.opencontainers.image.title=${IMAGE_NAME} \
+    "${BUILD_DIR%/}" > "${OUTPUT}"
 
 # If we got this far, then all good. remove log.
-rm -f "${OUTPUT}" || true
+if [ "${OUTPUT}" != "/dev/stdout" ]; then
+    rm -f "${OUTPUT}" || true
+fi

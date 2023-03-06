@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REQUEST_URI="/dev/build"
-TAG=${TAG:-8.2-apache-buster}
+IMAGE_TAG=${IMAGE_TAG:-8.2-apache-buster}
 
 # Options
 
@@ -97,12 +97,12 @@ failure() {
 info "Test Runner"
 info " - Arguments"
 info "    - REQUEST_URI=${REQUEST_URI}"
-info "    - TAG=${TAG}"
+info "    - IMAGE_TAG=${IMAGE_TAG}"
 info " - Copying Environment files"
 cp _ss_environment.php /src/
 info " - Changing ownership of codebase to 'www-data'"
 
-if [[ "${TAG}" =~ "alpine" ]]; then
+if [[ "${IMAGE_TAG}" =~ "alpine" ]]; then
     chown -R 82:82 /src
 else
     chown -R www-data:www-data /src
@@ -113,15 +113,15 @@ retry 5 ./wait-for database:3306 --quiet --timeout=30
 info "   - Good"
 info ""
 info "Running tests"
-if [[ "${TAG}" =~ "-apache-" ]]; then
-    info " - Detected apache in tag, trying test via curl"
+if [[ "${IMAGE_TAG}" =~ "-apache-" ]]; then
+    info " - Detected apache in image tag, trying test via curl"
     try_curl
         
     if [[ "${RESULT}" =~ "Database build completed!" ]]; then
         pass
     fi
-elif [[ "${TAG}" =~ "-fpm-" ]]; then
-    info " - Detected fpm in tag, trying test via cgi"
+elif [[ "${IMAGE_TAG}" =~ "-fpm-" ]]; then
+    info " - Detected fpm in image tag, trying test via cgi"
     WORK_DIR=${MOUNT_DIR:-/var/www/html}
     [ -d "/src/public" ] && WORK_DIR="${WORK_DIR}/public"
     
@@ -137,7 +137,7 @@ elif [[ "${TAG}" =~ "-fpm-" ]]; then
     if [[ "${RESULT}" =~ "Database build completed!" ]]; then
         pass
     fi
-elif [[ "${TAG}" =~ "-cli-" ]]; then
+elif [[ "${IMAGE_TAG}" =~ "-cli-" ]]; then
     pass "Skipping CLI test"
 fi
 

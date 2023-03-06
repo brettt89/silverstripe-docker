@@ -20,7 +20,7 @@ function build() {
         return 0
     fi
 
-    OUTPUT=${OUTPUT:-build.log} ./build/build-image.sh "$TAG"
+    OUTPUT=${OUTPUT:-build.log} IMAGE_TAG=${TAG} make build-image
 }
 
 function loop() {

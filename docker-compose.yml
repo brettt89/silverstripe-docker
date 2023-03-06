@@ -9,7 +9,7 @@ services:
        - silverstripe
        - database
     environment:
-       - TAG=${TAG:-8.2-apache-buster}
+       - IMAGE_TAG=${IMAGE_TAG:-8.2-apache-buster}
        - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
     volumes:
        - codebase:/src
@@ -18,7 +18,7 @@ services:
     build: 
       context: ${BUILD_DIR:-src/8.2/apache/buster}
       dockerfile: Dockerfile
-    image: ${IMAGE:-brettt89/silverstripe-web}:${TAG:-8.2-apache-buster}
+    image: ${IMAGE:-brettt89/silverstripe-web:8.2-apache-buster}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
     depends_on:
