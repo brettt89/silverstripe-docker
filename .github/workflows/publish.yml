@@ -1,4 +1,5 @@
 name: Release
+
 on:
   schedule:
     # Run on scheduled every Monday at 2.00am
@@ -7,15 +8,14 @@ on:
     # Pattern matched against refs/tags
     tags:        
       - '*'           # Push events to every tag not containing /
-  pull_request:
-    branches:
-      - 'master'
 
 env:
   IMAGE_PREFIX: brettt89/silverstripe-web
+  CACHE_PATH: /tmp/.buildx-cache
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -62,7 +62,7 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
-          path: /tmp/.buildx-cache
+          path: ${{ env.CACHE_PATH }}
           key: ${{ runner.os }}-buildx-${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-
@@ -72,40 +72,22 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and export to docker
-        uses: docker/build-push-action@v4
-        with:
-          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
-          load: true
-          tags: ${{ env.IMAGE_PREFIX }}:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-test
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
-
-      - id: test
-        uses: ./.github/actions/build-test
-        with:
-          image: ${{ env.IMAGE_PREFIX }}:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-test
-          php: ${{ matrix.php }}
-          distro: ${{ matrix.distro }}
-          os: ${{ matrix.os }}
       
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
           platforms: linux/amd64,linux/arm64
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=${{ env.CACHE_PATH }}
+          cache-to: type=local,dest=${{ env.CACHE_PATH }}-new
 
       - # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         # https://github.com/moby/buildkit/issues/1896
         name: Move cache
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf ${{ env.CACHE_PATH }}
+          mv ${{ env.CACHE_PATH }}-new ${{ env.CACHE_PATH }}
