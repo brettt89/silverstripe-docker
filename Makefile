@@ -1,12 +1,20 @@
 export LOG_LEVEL := $(findstring s,$(word 1, $(MAKEFLAGS)))
 ARG = $(filter-out $@,$(MAKECMDGOALS))
-TAG = $(if $(filter %,$(ARG)),$(ARG),8.2-apache-buster)
 
 ifndef FRAMEWORK
 FRAMEWORK = 4
 endif
 
-.PHONY: all build build-image new-test create-project install-project test-build-image test clean $(ARG)
+IMAGE_NAME		?= silverstripe-web
+IMAGE_PREFIX 	?= brettt89
+IMAGE_TAG		?= $(if $(filter %,$(ARG)),$(ARG),8.2-apache-buster)
+COMMIT			?= commit-id
+IMAGE			?= ${IMAGE_PREFIX}/${IMAGE_NAME}:${IMAGE_TAG}
+BUILD_DIR       ?= src/$(subst -,/,$(IMAGE_TAG))
+
+export IMAGE_NAME IMAGE_TAG COMMIT IMAGE BUILD_DIR
+
+.PHONY: all build build-image new-test create-project test clean $(ARG)
 all:
 	@echo "Silverstripe Web - Docker image builder"
 	@echo
@@ -27,31 +35,31 @@ all:
 	@echo "  <tag>                   Tag to build/test. e.g. '8.2-apache-jessie'"
 
 update:
-	./build/update.sh $(ARG)
+	./build/update.sh
 
 build:
-	./build/build-regex.sh $(ARG)
+	./build/build-regex.sh $(if $(filter %,$(ARG)),$(ARG),8.2-apache-buster)
 
 build-image:
-	./build/build-image.sh $(TAG)
+	IMAGE_TAG=${IMAGE_TAG} ./build/build-image.sh
 
 new-test:
 	@echo "Running new test"
-	@echo "  Tag: $(TAG)"
-	@echo "  BuildDir: src/$(subst -,/,$(TAG))"
+	@echo "  Tag: $(IMAGE_TAG)"
+	@echo "  BuildDir: $(BUILD_DIR)"
 	@echo
 	@$(MAKE) --quiet clean
-	@FRAMEWORK=$(FRAMEWORK) $(MAKE) --quiet create-project $(TAG)
-	@$(MAKE) --quiet test $(TAG)
+	@FRAMEWORK=$(FRAMEWORK) $(MAKE) --quiet create-project $(IMAGE_TAG)
+	@$(MAKE) --quiet test $(IMAGE_TAG)
 
 create-project:
-	TAG=$(TAG) docker-compose run composer config -g platform.php $(firstword $(subst -, ,$(TAG)))
-	TAG=$(TAG) docker-compose run composer config -g platform.ext-intl 1
-	TAG=$(TAG) docker-compose run composer create-project silverstripe/installer . ^$(FRAMEWORK)
+	docker-compose run --rm composer config -g platform.php $(firstword $(subst -, ,$(IMAGE_TAG)))
+	docker-compose run --rm composer config -g platform.ext-intl 1
+	docker-compose run --rm composer create-project silverstripe/installer . ^$(FRAMEWORK)
 
 test:
-	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose run sut
-	TAG=$(TAG) BUILD_DIR="src/$(subst -,/,$(TAG))" docker-compose down
+	docker-compose run sut
+	docker-compose down
 
 clean:
 	docker-compose down --volume

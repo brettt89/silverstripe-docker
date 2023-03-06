@@ -1,6 +1,9 @@
 name: Build & Test
 description: "Builds and tests the docker images"
 inputs:
+  image:
+    required: true
+    description: "Image and version (e.g. my/app:8.0-apache)"
   php:
     required: true
     description: "PHP Version"
@@ -10,46 +13,54 @@ inputs:
   os:
     required: true
     description: "Debian Operating System Distribution"
-  framework:
-    required: true
-    description: "Silverstripe CMS Recipe Version"
 runs:
   using: "composite"
   steps:
     - name: Build Images
       env:
-        TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
+        IMAGE_TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}-test
         BUILD_DIR: src/${{ inputs.php }}/${{ inputs.distro }}/${{ inputs.os }}
-      run: docker-compose build
+        DOCKER_BUILDKIT: 1
+        COMPOSE_DOCKER_CLI_BUILD: 1
+      run: docker-compose build sut
       shell: bash
 
     - name: Get Composer Cache Directory
       id: composer-data
       run: |
-        echo "::set-output name=dir::$(composer config --global data-dir)"
+        echo "dir=$(composer config --global data-dir)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Get Framework Version
+      id: framework
+      run : |
+        if [[ "${{ inputs.php }}" == "8.2" ]]; then echo "version=5@dev" >> $GITHUB_OUTPUT ; else echo "version=4" >> $GITHUB_OUTPUT; fi
       shell: bash
 
     - name: Cache Composer Downloads
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-data.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ inputs.framework }}-${{ inputs.php }}
+        key: ${{ runner.os }}-composer-${{ steps.framework.outputs.version }}-${{ inputs.php }}
         restore-keys: |
-          ${{ runner.os }}-composer-${{ inputs.framework }}
+          ${{ runner.os }}-composer-${{ steps.framework.outputs.version }}
 
-    - name: Create Silverstripe ${{ inputs.framework }} test project
+    - name: Create Silverstripe ${{ steps.framework.outputs.version }} test project
       env:
         COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
       run: |
-        docker-compose run composer config -g platform.php ${{ inputs.php }}
-        docker-compose run composer config -g platform.ext-intl 1
-        docker-compose run composer config -g --no-interaction allow-plugins.composer/installers true
-        docker-compose run composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ inputs.framework }}
+        docker-compose run --rm composer config -g platform.php ${{ inputs.php }}
+        docker-compose run --rm composer config -g platform.ext-intl 1
+        docker-compose run --rm composer config -g --no-interaction allow-plugins.composer/installers true
+        docker-compose run --rm composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ steps.framework.outputs.version }}
       shell: bash
 
     - name: Run tests
       env:
-        TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
+        IMAGE_TAG: ${{ inputs.php }}-${{ inputs.distro }}-${{ inputs.os }}
+        IMAGE: ${{ inputs.image }}
+        DOCKER_BUILDKIT: 1
+        COMPOSE_DOCKER_CLI_BUILD: 1
       run: docker-compose run sut
       shell: bash
 
