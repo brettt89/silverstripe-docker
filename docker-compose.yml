@@ -19,6 +19,7 @@ services:
       context: ${BUILD_DIR:-src/8.2/apache/buster}
       dockerfile: Dockerfile
     image: ${IMAGE:-brettt89/silverstripe-web:8.2-apache-buster}
+    platform: ${PLATFORM:-linux/amd64}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
     depends_on:
