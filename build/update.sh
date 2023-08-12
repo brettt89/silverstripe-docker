@@ -7,9 +7,9 @@ buildDir="$currentDir/../src"
 phpVersions=( "$@" )
 if [ ${#phpVersions[@]} -eq 0 ]; then
 	phpVersions=(
-        '7.4'
         '8.0'
         '8.1'
+        '8.2'
     )
 fi
 phpVersions=( "${phpVersions[@]%/}" )
@@ -19,9 +19,9 @@ declare -A variantExtras=(
 )
 
 declare -A variantDebianDistros=(
-    [7.4]='buster bullseye'
     [8.0]='buster bullseye'
     [8.1]='buster bullseye'
+    [8.2]='buster bullseye'
 )
 
 declare -a variantImplementation=(

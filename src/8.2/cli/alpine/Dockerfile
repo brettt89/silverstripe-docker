@@ -1,5 +1,8 @@
-FROM php:7.4-apache-buster
-MAINTAINER Brett Tasker '<brett@silverstripe.com>'
+FROM php:8.2-cli-alpine
+LABEL org.opencontainers.image.description="PHP Extended cli image for Silverstripe applications"
+LABEL org.opencontainers.image.authors="Brett Tasker '<brett@silverstripe.com>'"
+LABEL org.opencontainers.image.url="https://github.com/brettt89/silverstripe-docker"
+LABEL org.opencontainers.image.licenses='MIT'
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
 
@@ -39,27 +42,3 @@ RUN echo 'date.timezone = Pacific/Auckland' > "$PHP_INI_DIR/conf.d/timezone.ini"
         echo 'error_log = /dev/stderr'; \
     } > "$PHP_INI_DIR/conf.d/errors.ini"
 
-
-# Apache configuration
-ENV DOCUMENT_ROOT /var/www/html
-RUN { \
-        echo '<VirtualHost *:80>'; \
-        echo '  DocumentRoot ${DOCUMENT_ROOT}'; \
-        echo '  LogLevel warn'; \
-        echo '  ServerSignature Off'; \
-        echo '  <Directory ${DOCUMENT_ROOT}>'; \
-        echo '    Options +FollowSymLinks'; \
-        echo '    Options -ExecCGI -Includes -Indexes'; \
-        echo '    AllowOverride all'; \
-        echo; \
-        echo '    Require all granted'; \
-        echo '  </Directory>'; \
-        echo '  <LocationMatch assets/>'; \
-        echo '    php_flag engine off'; \
-        echo '  </LocationMatch>'; \
-        echo; \
-        echo '  IncludeOptional sites-available/000-default.local*'; \
-        echo '</VirtualHost>'; \
-	} > /etc/apache2/sites-available/000-default.conf && \
-    echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
-    a2enmod rewrite expires remoteip headers
