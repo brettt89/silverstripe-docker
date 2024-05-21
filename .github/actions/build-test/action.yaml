@@ -38,7 +38,7 @@ runs:
     - name: Get Framework Version
       id: framework
       run : |
-        if [[ "${{ inputs.php }}" == "8.2" ]]; then echo "version=5" >> $GITHUB_OUTPUT ; else echo "version=4" >> $GITHUB_OUTPUT; fi
+        if [[ "${{ inputs.php }}" == "8.1" ]]; then echo "version=4" >> $GITHUB_OUTPUT ; else echo "version=5" >> $GITHUB_OUTPUT; fi
       shell: bash
 
     - name: Cache Composer Downloads

@@ -53,13 +53,13 @@ new-test:
 	@$(MAKE) --quiet test $(IMAGE_TAG)
 
 create-project:
-	docker-compose run --rm composer config -g platform.php $(firstword $(subst -, ,$(IMAGE_TAG)))
-	docker-compose run --rm composer config -g platform.ext-intl 1
-	docker-compose run --rm composer create-project silverstripe/installer . ^$(FRAMEWORK)
+	docker compose run --rm composer config -g platform.php $(firstword $(subst -, ,$(IMAGE_TAG)))
+	docker compose run --rm composer config -g platform.ext-intl 1
+	docker compose run --rm composer create-project silverstripe/installer . ^$(FRAMEWORK)
 
 test:
-	docker-compose run sut
-	docker-compose down
+	docker compose run sut
+	docker compose down
 
 clean:
-	docker-compose down --volume
+	docker compose down --volumes
