@@ -24,8 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [bullseye, buster, alpine]
-        php: ['8.0', '8.1', '8.2']
+        os: [bookworm, bullseye, alpine]
+        php: ['8.1', '8.2', '8.3']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
@@ -74,8 +74,8 @@ jobs:
     strategy:
       matrix:
         platform: [linux/amd64, linux/arm64]
-        os: [bullseye, buster, alpine]
-        php: ['8.0', '8.1', '8.2']
+        os: [bookworm, bullseye, alpine]
+        php: ['8.1', '8.2', '8.3']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine

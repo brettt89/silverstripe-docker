@@ -3,7 +3,7 @@ set -euo pipefail
 
 OUTPUT=${OUTPUT:-/dev/stdout}
 
-IMAGE_TAG=${IMAGE_TAG:-8.2-apache-bullseye}
+IMAGE_TAG=${IMAGE_TAG:-8.3-apache-bookworm}
 IMAGE=${IMAGE:-brettt89/silverstripe-web:${IMAGE_TAG}}
 
 BUILD_DIR="$(dirname "$(dirname "$(readlink -f "$BASH_SOURCE")")")/src"
