@@ -116,7 +116,7 @@ The following extensions are installed by default on top of the default PHP imag
 
 The `php` images come in many flavors, each designed for a specific use case.
 
-Some of these tags may have names like `bullseye` or `buster` in them. These are the suite code names for releases of [Debian](https://wiki.debian.org/DebianReleases) and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you'll likely want to specify one of these explicitly to minimize breakage when there are new releases of Debian.
+Some of these tags may have names like `bullseye` or `bookworm` in them. These are the suite code names for releases of [Debian](https://wiki.debian.org/DebianReleases) and indicate which release the image is based on. If your image needs to install any additional packages beyond what comes with the image, you'll likely want to specify one of these explicitly to minimize breakage when there are new releases of Debian.
 
 ## `brettt89/silverstripe-web:<version>-apache`
 

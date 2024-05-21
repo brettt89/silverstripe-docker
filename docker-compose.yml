@@ -9,16 +9,16 @@ services:
        - silverstripe
        - database
     environment:
-       - IMAGE_TAG=${IMAGE_TAG:-8.2-apache-buster}
+       - IMAGE_TAG=${IMAGE_TAG:-8.3-apache-bookworm}
        - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
     volumes:
        - codebase:/src
 
   silverstripe:
     build: 
-      context: ${BUILD_DIR:-src/8.2/apache/buster}
+      context: ${BUILD_DIR:-src/8.3/apache/bookworm}
       dockerfile: Dockerfile
-    image: ${IMAGE:-brettt89/silverstripe-web:8.2-apache-buster}
+    image: ${IMAGE:-brettt89/silverstripe-web:8.3-apache-bookworm}
     platform: ${PLATFORM:-linux/amd64}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}

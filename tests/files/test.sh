@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REQUEST_URI="/dev/build"
-IMAGE_TAG=${IMAGE_TAG:-8.2-apache-buster}
+IMAGE_TAG=${IMAGE_TAG:-8.3-apache-bookworm}
 
 # Options
 
