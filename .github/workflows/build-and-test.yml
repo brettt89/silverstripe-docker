@@ -24,12 +24,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [bookworm, bullseye, alpine]
-        php: ['8.1', '8.2', '8.3']
+        os: [trixie, bookworm, bullseye, alpine]
+        php: ['8.1', '8.2', '8.3', '8.4']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
             distro: apache
+          - os: trixie
+            php: '8.1'
+          - os: trixie
+            php: '8.2'
+          - os: trixie
+            php: '8.3'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -74,12 +80,18 @@ jobs:
     strategy:
       matrix:
         platform: [linux/amd64, linux/arm64]
-        os: [bookworm, bullseye, alpine]
-        php: ['8.1', '8.2', '8.3']
+        os: [trixie, bookworm, bullseye, alpine]
+        php: ['8.1', '8.2', '8.3', '8.4']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
             distro: apache
+          - os: trixie
+            php: '8.1'
+          - os: trixie
+            php: '8.2'
+          - os: trixie
+            php: '8.3'
     env:
       PLATFORM: ${{ matrix.platform }}
 

@@ -20,12 +20,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [bookworm, bullseye, alpine]
-        php: ['8.1', '8.2', '8.3']
+        os: [trixie, bookworm, bullseye, alpine]
+        php: ['8.1', '8.2', '8.3', '8.4']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
             distro: apache
+          - os: trixie
+            php: '8.1'
+          - os: trixie
+            php: '8.2'
+          - os: trixie
+            php: '8.3'
         include:
           - os: bookworm
             additional_distro: true
@@ -33,7 +39,7 @@ jobs:
             distro: apache
             additional_php: true
           - os: bookworm
-            php: 8.3
+            php: 8.4
             distro: apache
             latest: true
     steps:
