@@ -26,7 +26,7 @@ runs:
         BUILD_DIR: src/${{ inputs.php }}/${{ inputs.distro }}/${{ inputs.os }}
         DOCKER_BUILDKIT: 1
         COMPOSE_DOCKER_CLI_BUILD: 1
-      run: docker-compose build sut
+      run: docker compose build sut
       shell: bash
 
     - name: Get Composer Cache Directory
@@ -53,10 +53,10 @@ runs:
       env:
         COMPOSER_HOME: ${{ steps.composer-data.outputs.dir }}
       run: |
-        docker-compose run --rm composer config -g platform.php ${{ inputs.php }}
-        docker-compose run --rm composer config -g platform.ext-intl 1
-        docker-compose run --rm composer config -g --no-interaction allow-plugins.composer/installers true
-        docker-compose run --rm composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ steps.framework.outputs.version }}
+        docker compose run --rm composer config -g platform.php ${{ inputs.php }}
+        docker compose run --rm composer config -g platform.ext-intl 1
+        docker compose run --rm composer config -g --no-interaction allow-plugins.composer/installers true
+        docker compose run --rm composer create-project --no-interaction --no-dev silverstripe/installer . ^${{ steps.framework.outputs.version }}
       shell: bash
 
     - name: Run tests
@@ -66,12 +66,12 @@ runs:
         PLATFORM: ${{ inputs.platform }}
         DOCKER_BUILDKIT: 1
         COMPOSE_DOCKER_CLI_BUILD: 1
-      run: docker-compose run sut
+      run: docker compose run sut
       shell: bash
 
     - name: The job has failed
       if: ${{ failure() }}
       run: |
-        docker-compose logs
+        docker compose logs
       shell: bash
   
