@@ -1,6 +1,7 @@
 name: Build and test Docker images
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - master
