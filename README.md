@@ -1,5 +1,5 @@
- - ![GitHub CI](https://github.com/brettt89/silverstripe-docker/workflows/GitHub%20CI/badge.svg?branch=master)
- - ![Release](https://github.com/brettt89/silverstripe-docker/workflows/Release/badge.svg?branch=master)
+ - ![Build and test Docker images](https://github.com/brettt89/silverstripe-docker/actions/workflows/build-and-test.yml/badge.svg?branch=master)
+ - ![Release](https://github.com/brettt89/silverstripe-docker/actions/workflows/publish.yml/badge.svg?branch=master)
 
 # Quick reference
 
