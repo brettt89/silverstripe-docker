@@ -3,9 +3,9 @@ set -euo pipefail
 
 REGEX="${1:-}"
 
-PHP_VERSION_ARRAY=("8.3" "8.2" "8.1")
+PHP_VERSION_ARRAY=("8.4" "8.3" "8.2" "8.1")
 VARIATION_ARRAY=("apache" "fpm" "cli")
-DISTRO_ARRAY=("bookworm" "bullseye" "alpine")
+DISTRO_ARRAY=("trixie" "bookworm" "bullseye" "alpine")
 
 function build() {
     local ARG_VERSION=${1:-}
@@ -33,6 +33,10 @@ function loop() {
             for DISTRO in "${ARG_DISTRO_ARRAY[@]}"; do
 
                 if [ "$DISTRO" == "alpine" ] && [ "$VARIATION" == "apache" ]; then
+                    continue
+                fi
+                
+                if [ "$DISTRO" == "trixie" ] && [ "$VERSION" != "8.4" ]; then
                     continue
                 fi
                 
