@@ -57,7 +57,33 @@ jobs:
             --volume ${REGISTRY_PATH}:/var/lib/registry \
             --name registry registry:2
 
-      - name: Build silverstripe docker image
+      - name: Build silverstripe docker image (attempt 1)
+        id: build_attempt_1
+        continue-on-error: true
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          cache-to: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-test
+      
+      - name: Build silverstripe docker image (attempt 2)
+        id: build_attempt_2
+        if: steps.build_attempt_1.outcome == 'failure'
+        continue-on-error: true
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          cache-to: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}:${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}-test
+      
+      - name: Build silverstripe docker image (attempt 3)
+        if: steps.build_attempt_2.outcome == 'failure'
         uses: docker/build-push-action@v3.2.0
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}

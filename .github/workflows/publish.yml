@@ -73,7 +73,35 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Build and push
+      - name: Build and push (attempt 1)
+        id: build_attempt_1
+        continue-on-error: true
+        uses: docker/build-push-action@v4
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          cache-to: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+      
+      - name: Build and push (attempt 2)
+        id: build_attempt_2
+        if: steps.build_attempt_1.outcome == 'failure'
+        continue-on-error: true
+        uses: docker/build-push-action@v4
+        with:
+          context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+          cache-to: type=gha,scope=${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
+      
+      - name: Build and push (attempt 3)
+        if: steps.build_attempt_2.outcome == 'failure'
         uses: docker/build-push-action@v4
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
