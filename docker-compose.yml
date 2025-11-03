@@ -41,7 +41,7 @@ services:
        - ${COMPOSER_HOME:-~/.composer}:/tmp
 
   database:
-    image: mysql:5.7
+    image: mysql:8.1
     environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
