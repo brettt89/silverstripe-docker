@@ -32,6 +32,8 @@ jobs:
             php: '8.2'
           - os: trixie
             php: '8.3'
+          - os: bullseye
+            php: '8.4'
         include:
           - os: bookworm
             additional_distro: true

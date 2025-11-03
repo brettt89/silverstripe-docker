@@ -12,14 +12,11 @@
 # Supported Tags and respective `Dockerfile` links
 
 - [`8.4-apache-bookworm`, `8.4-apache`, `8.4`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/bookworm/Dockerfile)
-- [`8.4-apache-bullseye`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/bullseye/Dockerfile)
 - [`8.4-apache-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/trixie/Dockerfile)
 - [`8.4-fpm-bookworm`, `8.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/bookworm/Dockerfile)
-- [`8.4-fpm-bullseye`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/bullseye/Dockerfile)
 - [`8.4-fpm-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/trixie/Dockerfile)
 - [`8.4-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/alpine/Dockerfile)
 - [`8.4-cli-bookworm`, `8.4-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/bookworm/Dockerfile)
-- [`8.4-cli-bullseye`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/bullseye/Dockerfile)
 - [`8.4-cli-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/trixie/Dockerfile)
 - [`8.4-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/alpine/Dockerfile)
 - [`8.3-apache-bookworm`, `8.3-apache`, `8.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/apache/bookworm/Dockerfile)

@@ -23,7 +23,7 @@ declare -A variantDebianDistros=(
     [8.1]='bullseye bookworm'
     [8.2]='bullseye bookworm'
     [8.3]='bullseye bookworm'
-    [8.4]='bullseye bookworm trixie'
+    [8.4]='bookworm trixie'
 )
 
 declare -a variantImplementation=(
