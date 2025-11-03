@@ -1,5 +1,5 @@
- - ![GitHub CI](https://github.com/brettt89/silverstripe-docker/workflows/GitHub%20CI/badge.svg?branch=master)
- - ![Release](https://github.com/brettt89/silverstripe-docker/workflows/Release/badge.svg?branch=master)
+ - ![Build and test Docker images](https://github.com/brettt89/silverstripe-docker/actions/workflows/build-and-test.yml/badge.svg?branch=master)
+ - ![Release](https://github.com/brettt89/silverstripe-docker/actions/workflows/publish.yml/badge.svg?branch=master)
 
 # Quick reference
 
@@ -11,9 +11,15 @@
 
 # Supported Tags and respective `Dockerfile` links
 
-> Due to [Silverstripe's supported php versions](https://docs.silverstripe.org/en/4/getting_started/server_requirements/#php-support) not including 8.2 for current release, PHP 8.1 Apache is still tagged as `latest` and PHP 8.2 images are tested using 5.x-dev branch at time of test execution (This will be updated to tagged 5.x release at later date).
-
-- [`8.3-apache-bookworm`, `8.3-apache`, `8.3`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/apache/bookworm/Dockerfile)
+- [`8.4-apache-bookworm`, `8.4-apache`, `8.4`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/bookworm/Dockerfile)
+- [`8.4-apache-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/trixie/Dockerfile)
+- [`8.4-fpm-bookworm`, `8.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/bookworm/Dockerfile)
+- [`8.4-fpm-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/trixie/Dockerfile)
+- [`8.4-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/alpine/Dockerfile)
+- [`8.4-cli-bookworm`, `8.4-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/bookworm/Dockerfile)
+- [`8.4-cli-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/trixie/Dockerfile)
+- [`8.4-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/cli/alpine/Dockerfile)
+- [`8.3-apache-bookworm`, `8.3-apache`, `8.3`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/apache/bookworm/Dockerfile)
 - [`8.3-apache-bullseye`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/apache/bullseye/Dockerfile)
 - [`8.3-fpm-bookworm`, `8.3-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/fpm/bookworm/Dockerfile)
 - [`8.3-fpm-bullseye`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.3/fpm/bullseye/Dockerfile)
@@ -154,7 +160,7 @@ services:
        - SS_DEFAULT_ADMIN_PASSWORD=password
 
   database:
-    image: mysql:5.7
+    image: mysql:8.1
     environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:

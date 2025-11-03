@@ -7,7 +7,7 @@ endif
 
 IMAGE_NAME		?= silverstripe-web
 IMAGE_PREFIX 	?= brettt89
-IMAGE_TAG		?= $(if $(filter %,$(ARG)),$(ARG),8.3-apache-bookworm)
+IMAGE_TAG		?= $(if $(filter %,$(ARG)),$(ARG),8.4-apache-bookworm)
 COMMIT			?= commit-id
 IMAGE			?= ${IMAGE_PREFIX}/${IMAGE_NAME}:${IMAGE_TAG}
 BUILD_DIR       ?= src/$(subst -,/,$(IMAGE_TAG))
@@ -38,7 +38,7 @@ update:
 	./build/update.sh
 
 build:
-	./build/build-regex.sh $(if $(filter %,$(ARG)),$(ARG),8.3-apache-bookworm)
+	./build/build-regex.sh $(if $(filter %,$(ARG)),$(ARG),8.4-apache-bookworm)
 
 build-image:
 	IMAGE_TAG=${IMAGE_TAG} ./build/build-image.sh
