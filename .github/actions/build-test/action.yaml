@@ -38,11 +38,16 @@ runs:
     - name: Get Framework Version
       id: framework
       run : |
-        if [[ "${{ inputs.php }}" == "8.1" ]]; then echo "version=4" >> $GITHUB_OUTPUT ; elif [[ "${{ inputs.php }}" == "8.4" ]]; then echo "version=6" >> $GITHUB_OUTPUT; else echo "version=5" >> $GITHUB_OUTPUT; fi
+        case "${{ inputs.php }}" in
+          8.1)      version=4 ;;
+          8.4|8.5)  version=6 ;;
+          *)        version=5 ;;
+        esac
+        echo "version=${version}" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache Composer Downloads
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       with:
         path: ${{ steps.composer-data.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ steps.framework.outputs.version }}-${{ inputs.php }}
