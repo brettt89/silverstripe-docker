@@ -3,9 +3,19 @@ set -euo pipefail
 
 REGEX="${1:-}"
 
-PHP_VERSION_ARRAY=("8.4" "8.3" "8.2" "8.1")
+PHP_VERSION_ARRAY=("8.5" "8.4" "8.3" "8.2" "8.1")
 VARIATION_ARRAY=("apache" "fpm" "cli")
 DISTRO_ARRAY=("trixie" "bookworm" "bullseye" "alpine")
+
+## Debian distros available per PHP version. Must match variantDebianDistros in build/update.sh,
+## otherwise we try to build a src/<version>/<variation>/<distro> directory that was never generated.
+declare -A VERSION_DEBIAN_DISTROS=(
+    [8.1]='bullseye bookworm'
+    [8.2]='bullseye bookworm'
+    [8.3]='bullseye bookworm'
+    [8.4]='bookworm trixie'
+    [8.5]='bookworm trixie'
+)
 
 function build() {
     local ARG_VERSION=${1:-}
@@ -35,11 +45,13 @@ function loop() {
                 if [ "$DISTRO" == "alpine" ] && [ "$VARIATION" == "apache" ]; then
                     continue
                 fi
-                
-                if [ "$DISTRO" == "trixie" ] && [ "$VERSION" != "8.4" ]; then
+
+                ## Skip Debian distros this PHP version does not ship an image for
+                if [ "$DISTRO" != "alpine" ] && [[ " ${VERSION_DEBIAN_DISTROS[$VERSION]} " != *" $DISTRO "* ]]; then
                     continue
                 fi
-                
+
+
                 build "$VERSION" "$VARIATION" "$DISTRO"
             done
         done
