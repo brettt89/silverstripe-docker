@@ -9,16 +9,16 @@ services:
        - silverstripe
        - database
     environment:
-       - IMAGE_TAG=${IMAGE_TAG:-8.3-apache-bookworm}
+       - IMAGE_TAG=${IMAGE_TAG:-8.5-apache-bookworm}
        - MOUNT_DIR=${MOUNT_DIR:-/var/www/html}
     volumes:
        - codebase:/src
 
   silverstripe:
     build: 
-      context: ${BUILD_DIR:-src/8.3/apache/bookworm}
+      context: ${BUILD_DIR:-src/8.5/apache/bookworm}
       dockerfile: Dockerfile
-    image: ${IMAGE:-brettt89/silverstripe-web:8.3-apache-bookworm}
+    image: ${IMAGE:-brettt89/silverstripe-web:8.5-apache-bookworm}
     platform: ${PLATFORM:-linux/amd64}
     volumes:
        - codebase:${MOUNT_DIR:-/var/www/html}
@@ -41,7 +41,7 @@ services:
        - ${COMPOSER_HOME:-~/.composer}:/tmp
 
   database:
-    image: mysql:8.1
+    image: mysql:8.4
     environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:

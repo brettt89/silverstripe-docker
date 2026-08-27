@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [trixie, bookworm, bullseye, alpine]
-        php: ['8.1', '8.2', '8.3', '8.4']
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
@@ -38,15 +38,17 @@ jobs:
             php: '8.3'
           - os: bullseye
             php: '8.4'
+          - os: bullseye
+            php: '8.5'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
         with:
           driver-opts: network=host
 
@@ -59,7 +61,7 @@ jobs:
       - name: Build silverstripe docker image (attempt 1)
         id: build_attempt_1
         continue-on-error: true
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v7
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
           platforms: linux/amd64,linux/arm64
@@ -72,7 +74,7 @@ jobs:
         id: build_attempt_2
         if: steps.build_attempt_1.outcome == 'failure'
         continue-on-error: true
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v7
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
           platforms: linux/amd64,linux/arm64
@@ -83,7 +85,7 @@ jobs:
       
       - name: Build silverstripe docker image (attempt 3)
         if: steps.build_attempt_2.outcome == 'failure'
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@v7
         with:
           context: src/${{ matrix.php }}/${{ matrix.distro }}/${{ matrix.os }}
           platforms: linux/amd64,linux/arm64
@@ -96,7 +98,7 @@ jobs:
         run: docker stop registry
 
       - name: Upload Docker registry data for testing
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: docker-registry-data-${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
           path: ${{ env.REGISTRY_PATH }}/
@@ -109,7 +111,7 @@ jobs:
       matrix:
         platform: [linux/amd64, linux/arm64]
         os: [trixie, bookworm, bullseye, alpine]
-        php: ['8.1', '8.2', '8.3', '8.4']
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
         distro: [apache, fpm, cli]
         exclude:
           - os: alpine
@@ -122,24 +124,26 @@ jobs:
             php: '8.3'
           - os: bullseye
             php: '8.4'
+          - os: bullseye
+            php: '8.5'
     env:
       PLATFORM: ${{ matrix.platform }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Download Docker registry data from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: docker-registry-data-${{ matrix.php }}-${{ matrix.distro }}-${{ matrix.os }}
           path: ${{ env.REGISTRY_PATH }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
       
       - name: Start Docker registry
         run: |

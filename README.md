@@ -11,7 +11,15 @@
 
 # Supported Tags and respective `Dockerfile` links
 
-- [`8.4-apache-bookworm`, `8.4-apache`, `8.4`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/bookworm/Dockerfile)
+- [`8.5-apache-bookworm`, `8.5-apache`, `8.5`, `latest`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/apache/bookworm/Dockerfile)
+- [`8.5-apache-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/apache/trixie/Dockerfile)
+- [`8.5-fpm-bookworm`, `8.5-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/fpm/bookworm/Dockerfile)
+- [`8.5-fpm-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/fpm/trixie/Dockerfile)
+- [`8.5-fpm-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/fpm/alpine/Dockerfile)
+- [`8.5-cli-bookworm`, `8.5-cli`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/cli/bookworm/Dockerfile)
+- [`8.5-cli-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/cli/trixie/Dockerfile)
+- [`8.5-cli-alpine`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.5/cli/alpine/Dockerfile)
+- [`8.4-apache-bookworm`, `8.4-apache`, `8.4`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/bookworm/Dockerfile)
 - [`8.4-apache-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/apache/trixie/Dockerfile)
 - [`8.4-fpm-bookworm`, `8.4-fpm`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/bookworm/Dockerfile)
 - [`8.4-fpm-trixie`](https://github.com/brettt89/silverstripe-docker/blob/master/src/8.4/fpm/trixie/Dockerfile)
@@ -160,7 +168,7 @@ services:
        - SS_DEFAULT_ADMIN_PASSWORD=password
 
   database:
-    image: mysql:8.1
+    image: mysql:8.4
     environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:

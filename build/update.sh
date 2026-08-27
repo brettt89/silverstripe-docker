@@ -11,6 +11,7 @@ if [ ${#phpVersions[@]} -eq 0 ]; then
         '8.2'
         '8.3'
         '8.4'
+        '8.5'
     )
 fi
 phpVersions=( "${phpVersions[@]%/}" )
@@ -24,6 +25,7 @@ declare -A variantDebianDistros=(
     [8.2]='bullseye bookworm'
     [8.3]='bullseye bookworm'
     [8.4]='bookworm trixie'
+    [8.5]='bookworm trixie'
 )
 
 declare -a variantImplementation=(

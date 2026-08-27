@@ -1,5 +1,5 @@
-FROM php:8.3-fpm-alpine
-LABEL org.opencontainers.image.description="PHP Extended fpm image for Silverstripe applications"
+FROM php:8.5-cli-bookworm
+LABEL org.opencontainers.image.description="PHP Extended cli image for Silverstripe applications"
 LABEL org.opencontainers.image.authors="Brett Tasker '<brett@silverstripe.com>'"
 LABEL org.opencontainers.image.url="https://github.com/brettt89/silverstripe-docker"
 LABEL org.opencontainers.image.licenses='MIT'

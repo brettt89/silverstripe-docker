@@ -7,7 +7,7 @@ endif
 
 IMAGE_NAME		?= silverstripe-web
 IMAGE_PREFIX 	?= brettt89
-IMAGE_TAG		?= $(if $(filter %,$(ARG)),$(ARG),8.4-apache-bookworm)
+IMAGE_TAG		?= $(if $(filter %,$(ARG)),$(ARG),8.5-apache-bookworm)
 COMMIT			?= commit-id
 IMAGE			?= ${IMAGE_PREFIX}/${IMAGE_NAME}:${IMAGE_TAG}
 BUILD_DIR       ?= src/$(subst -,/,$(IMAGE_TAG))
@@ -23,7 +23,7 @@ all:
 	@echo "  update                  Update Dockerfiles using build/update.sh"
 	@echo
 	@echo "Test Commands"
-	@echo "  new-test <tag>          Start a new test using <tag>, Default: 8.3-apache-bookworm."
+	@echo "  new-test <tag>          Start a new test using <tag>, Default: 8.5-apache-bookworm."
 	@echo "  test <tag>              Execute tests, assumes project has been build."
 	@echo "  clean                   Delete all test data." 
 	@echo
@@ -31,14 +31,14 @@ all:
 	@echo "  create-project <tag>    Create new Silverstripe Project".
 	@echo
 	@echo "Parameters"
-	@echo "  <version>               PHP version. Format '<major>.<minor>'. e.g. '8.3'"
-	@echo "  <tag>                   Tag to build/test. e.g. '8.3-apache-bookworm'"
+	@echo "  <version>               PHP version. Format '<major>.<minor>'. e.g. '8.5'"
+	@echo "  <tag>                   Tag to build/test. e.g. '8.5-apache-bookworm'"
 
 update:
 	./build/update.sh
 
 build:
-	./build/build-regex.sh $(if $(filter %,$(ARG)),$(ARG),8.4-apache-bookworm)
+	./build/build-regex.sh $(if $(filter %,$(ARG)),$(ARG),8.5-apache-bookworm)
 
 build-image:
 	IMAGE_TAG=${IMAGE_TAG} ./build/build-image.sh

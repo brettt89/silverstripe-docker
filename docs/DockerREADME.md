@@ -68,7 +68,7 @@ services:
        - SS_DEFAULT_ADMIN_PASSWORD=password
 
   database:
-    image: mysql:8.1
+    image: mysql:8.4
     environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
